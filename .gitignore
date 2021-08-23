@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+SNP/Library
+SNP/Logs
+SNP/Temp
