@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -87,11 +88,24 @@ namespace Leopotam.EcsLite.UnityEditor {
                 foreach (var type in assembly.GetTypes ()) {
                     if (typeof (IEcsComponentInspector).IsAssignableFrom (type) && !type.IsInterface) {
                         if (Activator.CreateInstance (type) is IEcsComponentInspector inspector) {
-                            var componentType = inspector.GetFieldType ();
-                            if (Inspectors.ContainsKey (componentType)) {
-                                Debug.LogWarningFormat ("Inspector for \"{0}\" already exists, new inspector will be used instead.", componentType.Name);
+                            if (inspector.GetFieldType() == typeof(IComponentDebug)) {
+                                var enumerable = AppDomain.CurrentDomain.GetAssemblies()
+                                    .SelectMany(s => s.GetTypes())
+                                    .Where(p => typeof(IComponentDebug).IsAssignableFrom(p));
+                                foreach (var enumerableDebug in enumerable) {
+                                    Inspectors[enumerableDebug] = inspector;
+                                }
                             }
-                            Inspectors[componentType] = inspector;
+                            else {
+                                var componentType = inspector.GetFieldType();
+                                if (Inspectors.ContainsKey(componentType)) {
+                                    Debug.LogWarningFormat(
+                                        "Inspector for \"{0}\" already exists, new inspector will be used instead.",
+                                        componentType.Name);
+                                }
+
+                                Inspectors[componentType] = inspector;
+                            }
                         }
                     }
                 }
