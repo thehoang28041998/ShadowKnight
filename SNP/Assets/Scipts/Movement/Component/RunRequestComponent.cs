@@ -15,10 +15,9 @@ namespace Movement.Component {
             this.abort = false;
             this.direction = direction;
         }
-        
 
         public Vector3 GetVelocity(float dt) {
-            return direction * 0.1f;
+            return direction * 0.05f;
         }
 
         public Reason Reason {
@@ -38,9 +37,6 @@ namespace Movement.Component {
 
         public void Abort() {
             abort = true;
-        }
-
-        public void Init() {
         }
 
 #if UNITY_EDITOR

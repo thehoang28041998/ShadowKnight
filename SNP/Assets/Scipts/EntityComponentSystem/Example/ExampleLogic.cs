@@ -24,11 +24,12 @@ namespace EntityComponentSystem.Example {
             systems
                 .Add(new UserInputSystem())
                 .Add(new RunJobSystem())
+                .Add(new DashJobSystem())
                 .Add(new TranslateSystem())
-                .Add(new MovementRequestSystem())
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())
 #endif
+                .Add(new ClearInputSystem())
                 .Init();
 
             InitEntity();

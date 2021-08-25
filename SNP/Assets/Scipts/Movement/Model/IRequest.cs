@@ -7,6 +7,5 @@ namespace Movement.Model {
         bool IsFinish { get; }
         void Update(float dt);
         void Abort();
-        void Init();
     }
 }

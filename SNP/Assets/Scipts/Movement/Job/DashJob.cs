@@ -1,25 +1,19 @@
-using EntityComponentSystem.Model;
-using Leopotam.EcsLite.Threads;
 using Leopotam.EcsLite.Threads.Unity;
 using Movement.Component;
 using Unity.Collections;
-using UnityEngine;
-using UserInput.Component;
-using UserInput.Model;
 
 namespace Movement.Job {
-    public struct RunJob : IEcsUnityJob<VelocityComponent, RunRequestComponent> {
+    public struct DashJob : IEcsUnityJob<VelocityComponent, DashRequestComponent> {
         private NativeArray<int> entities;
         [NativeDisableParallelForRestriction] 
         private NativeArray<VelocityComponent> pool1;
         private NativeArray<int> indices1;
         [NativeDisableParallelForRestriction] 
-        private NativeArray<RunRequestComponent> pool2;
+        private NativeArray<DashRequestComponent> pool2;
         private NativeArray<int> indices2;
         public float deltaTime { get; set; }
-
-        public void Init(NativeArray<int> entities, NativeArray<VelocityComponent> pool1, NativeArray<int> indices1,
-                         NativeArray<RunRequestComponent> pool2, NativeArray<int> indices2) {
+        
+        public void Init(NativeArray<int> entities, NativeArray<VelocityComponent> pool1, NativeArray<int> indices1, NativeArray<DashRequestComponent> pool2, NativeArray<int> indices2) {
             this.entities = entities;
             this.pool1 = pool1;
             this.pool2 = pool2;
@@ -33,7 +27,7 @@ namespace Movement.Job {
             VelocityComponent velocityComponent = pool1[pool1Idx];
             
             int pool2Idx = indices2[entity];
-            RunRequestComponent requestComponent = pool2[pool2Idx];
+            DashRequestComponent requestComponent = pool2[pool2Idx];
 
             if (!requestComponent.IsFinish) {
                 requestComponent.Update(deltaTime);

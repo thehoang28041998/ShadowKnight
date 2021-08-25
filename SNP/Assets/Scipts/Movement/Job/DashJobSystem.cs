@@ -1,27 +1,25 @@
 using System;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Threads;
 using Leopotam.EcsLite.Threads.Unity;
 using Movement.Component;
 using UnityEngine;
-using UserInput.Component;
 
 namespace Movement.Job {
-    public class RunJobSystem : EcsUnityJobSystem<RunJob, VelocityComponent, RunRequestComponent> {
+    public class DashJobSystem : EcsUnityJobSystem<DashJob, VelocityComponent, DashRequestComponent> {
         protected override int GetChunkSize(EcsSystems systems) {
             return Environment.ProcessorCount;
         }
 
         protected override EcsFilter GetFilter(EcsWorld world) {
-            EcsFilter filter = world.Filter<VelocityComponent>().Inc<RunRequestComponent>().End();
+            EcsFilter filter = world.Filter<VelocityComponent>().Inc<DashRequestComponent>().End();
             return filter;
         }
 
         protected override EcsWorld GetWorld(EcsSystems systems) {
             return systems.GetWorld();
         }
-
-        protected override void SetData(EcsSystems systems, ref RunJob job) {
+        
+        protected override void SetData(EcsSystems systems, ref DashJob job) {
             base.SetData(systems, ref job);
             job.deltaTime = Time.deltaTime;
         }

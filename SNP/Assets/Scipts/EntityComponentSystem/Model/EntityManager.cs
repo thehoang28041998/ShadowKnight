@@ -26,6 +26,11 @@ namespace EntityComponentSystem.Model {
             return ref _component;
         }
 
+        public bool HasComponent<T>(int entity) where T : struct, IComponent {
+            EcsPool<T> pool = world.GetPool<T>();
+            return pool.Has(entity);
+        }
+
         public ref T GetComponent<T>(int entity) where T : struct, IComponent {
             EcsPool<T> pool = world.GetPool<T>();
             ref T component = ref pool.Get(entity);
