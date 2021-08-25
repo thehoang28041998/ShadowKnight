@@ -1,27 +1,41 @@
-using System;
 using EntityComponentSystem.Model;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.UnityEditor;
+using Movement.Component;
+using Movement.Job;
 using UnityEngine;
+using UserInput.Component;
+using UserInput.Job;
+using UserInput.Model;
 
 namespace EntityComponentSystem.Example {
     public class ExampleLogic : MonoBehaviour {
         private EcsWorld world;
         private EcsSystems systems;
-        private Entity entity;
 
         private void Start() {
             world = new EcsWorld();
             systems = new EcsSystems(world);
             systems.Add(new ExampleSystem())
+                .Add(new UserInputSystem())
+                .Add(new VelocityJobSystem())
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())
 #endif
                 .Init();
 
-            entity = new Entity(world, world.NewEntity());
+            InitEntity();
+        }
+
+        private void InitEntity() {
+            var entity = new Entity(world, world.NewEntity());
             ref var example = ref entity.AddComponent<ExampleComponent>();
-            example.value = "hoang dep trai";
+
+            ref var input = ref entity.AddComponent<InputComponent>();
+            input.inputFrom = InputFrom.User;
+
+            ref var velocity = ref entity.AddComponent<VelocityComponent>();
+            velocity.velocity = Vector2.one;
         }
 
         private void Update() {
