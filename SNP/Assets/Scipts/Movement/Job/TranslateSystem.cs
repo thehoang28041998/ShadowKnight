@@ -13,9 +13,10 @@ namespace Movement.Job {
             foreach (var entity in filter) {
                 ref var translateComponent = ref translatePool.Get(entity);
                 ref var velocityComponent = ref velocityPool.Get(entity);
-                translateComponent.transform.Translate(velocityComponent.velocity);
+                translateComponent.Controller.Move(velocityComponent.velocity);
                 
                 // todo: reset velocity
+                velocityComponent.saveVelocity = velocityComponent.velocity;
                 velocityComponent.velocity = Vector3.zero;
             }
         }

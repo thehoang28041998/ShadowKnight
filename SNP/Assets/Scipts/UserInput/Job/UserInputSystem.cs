@@ -12,8 +12,10 @@ namespace UserInput.Job {
 
             foreach (var entity in filter) {
                 ref var component = ref pool.Get(entity);
+                component.isRunning = false;
                 if (component.inputFrom == InputFrom.User) {
                     component.direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                    component.isRunning = true;
                 }
             }
         }

@@ -10,18 +10,22 @@ using UserInput.Model;
 
 namespace EntityComponentSystem.Example {
     public class ExampleLogic : MonoBehaviour {
-        public GameObject player;
+        public CharacterController player;
         
         private EcsWorld world;
         private EcsSystems systems;
+        private EntityManager manager;
 
         private void Start() {
             world = new EcsWorld();
+            manager = new EntityManager(world);
+            
             systems = new EcsSystems(world);
-            systems.Add(new ExampleSystem())
+            systems
                 .Add(new UserInputSystem())
-                .Add(new VelocityJobSystem())
+                .Add(new RunJobSystem())
                 .Add(new TranslateSystem())
+                .Add(new MovementRequestSystem())
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())
 #endif
@@ -31,16 +35,15 @@ namespace EntityComponentSystem.Example {
         }
 
         private void InitEntity() {
-            var entity = new Entity(world, world.NewEntity());
-            ref var example = ref entity.AddComponent<ExampleComponent>();
-
-            ref var input = ref entity.AddComponent<InputComponent>();
+            int entity = world.NewEntity();
+            
+            ref var input = ref manager.AddComponent<InputComponent>(entity);
             input.inputFrom = InputFrom.User;
 
-            ref var velocity = ref entity.AddComponent<VelocityComponent>();
+            ref var velocity = ref manager.AddComponent<VelocityComponent>(entity);
 
-            ref var transform = ref entity.AddComponent<TranslateComponent>();
-            transform.transform = player.transform;
+            ref var transform = ref manager.AddComponent<TranslateComponent>(entity);
+            transform.Controller = player;
         }
 
         private void Update() {
