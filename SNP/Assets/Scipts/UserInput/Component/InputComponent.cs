@@ -4,7 +4,7 @@ using UserInput.Model;
 
 namespace UserInput.Component {
     public struct InputComponent : IComponent{
-        public Vector2 direction;
+        public Vector3 direction;
         public InputFrom inputFrom;
     }
 }

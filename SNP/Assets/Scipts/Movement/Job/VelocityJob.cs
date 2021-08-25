@@ -4,6 +4,7 @@ using Movement.Component;
 using Unity.Collections;
 using UnityEngine;
 using UserInput.Component;
+using UserInput.Model;
 
 namespace Movement.Job {
     public struct VelocityJob : IEcsUnityJob<VelocityComponent, InputComponent> {
@@ -32,8 +33,10 @@ namespace Movement.Job {
             int index_2 = indices2[entity];
             InputComponent inputComponent = pool2[index_2];
 
-            velocityComponent.velocity += inputComponent.direction;
-            pool1[index_1] = velocityComponent;
+            if (inputComponent.inputFrom == InputFrom.User) {
+                velocityComponent.velocity += inputComponent.direction;
+                pool1[index_1] = velocityComponent;
+            }
         }
     }
 }

@@ -10,6 +10,8 @@ using UserInput.Model;
 
 namespace EntityComponentSystem.Example {
     public class ExampleLogic : MonoBehaviour {
+        public GameObject player;
+        
         private EcsWorld world;
         private EcsSystems systems;
 
@@ -19,6 +21,7 @@ namespace EntityComponentSystem.Example {
             systems.Add(new ExampleSystem())
                 .Add(new UserInputSystem())
                 .Add(new VelocityJobSystem())
+                .Add(new TranslateSystem())
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())
 #endif
@@ -35,7 +38,9 @@ namespace EntityComponentSystem.Example {
             input.inputFrom = InputFrom.User;
 
             ref var velocity = ref entity.AddComponent<VelocityComponent>();
-            velocity.velocity = Vector2.one;
+
+            ref var transform = ref entity.AddComponent<TranslateComponent>();
+            transform.transform = player.transform;
         }
 
         private void Update() {
