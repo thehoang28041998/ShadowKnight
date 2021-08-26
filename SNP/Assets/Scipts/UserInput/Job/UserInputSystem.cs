@@ -33,7 +33,8 @@ namespace UserInput.Job {
                     }
 
                     if (inputComponent.isDash) {
-                        requestComponent.AddRequest(new DashRequestComponent(10, 1.0f));
+                        var velocity = entityManager.GetComponent<VelocityComponent>(entity);
+                        requestComponent.AddRequest(new DashRequestComponent(10, 1.0f, velocity.saveVelocity));
                     }
 
                     if (inputComponent.isRunning) {

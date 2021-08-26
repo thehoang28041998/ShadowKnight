@@ -9,14 +9,16 @@ namespace Movement.Component {
     public struct DashRequestComponent : IRequest, IComponent, IComponentDebug {
         private float dashDistance;
         private float dashDuration;
+        private Vector3 direction;
 
         private float previousDistance;
         private float elapsed;
         private bool abort;
 
-        public DashRequestComponent(float dashDistance, float dashDuration) {
+        public DashRequestComponent(float dashDistance, float dashDuration, Vector3 direction) {
             this.dashDistance = dashDistance;
             this.dashDuration = dashDuration;
+            this.direction = direction.normalized;
             this.abort = false;
             this.elapsed = 0.0f;
             this.previousDistance = 0.0f;
@@ -34,7 +36,7 @@ namespace Movement.Component {
             float deltaDistance = traveledDistance - previousDistance;
             previousDistance = traveledDistance;
 
-            return Vector3.forward * deltaDistance;
+            return direction * deltaDistance;
             
         }
 
@@ -67,6 +69,10 @@ namespace Movement.Component {
 
         public float DashDistance {
             get => dashDistance;
+        }
+
+        public Vector3 DashDirection {
+            get => direction;
         }
 
 #if UNITY_EDITOR

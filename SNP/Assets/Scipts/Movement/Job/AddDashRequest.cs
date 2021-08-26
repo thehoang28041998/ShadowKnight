@@ -35,7 +35,8 @@ namespace Movement.Job {
                 // add new dash
                 if (isContinue) {
                     var dashRequest = (DashRequestComponent) request;
-                    dash = new DashRequestComponent(dashRequest.DashDistance, dashRequest.DashDuration);
+                    dash = new DashRequestComponent(dashRequest.DashDistance, dashRequest.DashDuration,
+                        dashRequest.DashDirection);
                 }
                 
                 requestComponent.RemoveRequest(RequestType.Dash);

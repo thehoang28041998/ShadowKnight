@@ -16,7 +16,9 @@ namespace Movement.Job {
                 translateComponent.Controller.Move(velocityComponent.velocity);
                 
                 // todo: reset velocity
-                velocityComponent.saveVelocity = velocityComponent.velocity;
+                if(velocityComponent.velocity != Vector3.zero) {
+                    velocityComponent.saveVelocity = velocityComponent.velocity;
+                }
                 velocityComponent.velocity = Vector3.zero;
             }
         }
