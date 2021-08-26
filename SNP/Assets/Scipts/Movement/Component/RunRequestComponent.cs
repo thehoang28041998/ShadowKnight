@@ -1,3 +1,4 @@
+using System;
 using Movement.Model;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -16,12 +17,19 @@ namespace Movement.Component {
             this.direction = direction;
         }
 
+        public Tuple<RequestType, MovementAction>[] Rule {
+            get => new[] {
+                new Tuple<RequestType, MovementAction>(RequestType.Dash, MovementAction.AbortCurrent), // 
+                new Tuple<RequestType, MovementAction>(RequestType.Run, MovementAction.AllowCurrent), // allow current 
+            };
+        }
+
         public RequestType RequestType {
             get => RequestType.Run;
         }
 
         public Vector3 GetVelocity(float dt) {
-            return direction * 0.05f;
+            return direction * dt;
         }
 
         public Reason Reason {

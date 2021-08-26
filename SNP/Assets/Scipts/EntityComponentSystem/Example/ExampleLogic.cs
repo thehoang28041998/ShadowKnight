@@ -22,12 +22,11 @@ namespace EntityComponentSystem.Example {
             
             systems = new EcsSystems(world);
             systems
-                .Add(new UserInputSystem())
-                .Add(new AddRunSystem())
-                .Add(new AddDashRequest())
-                .Add(new RunJobSystem())
-                .Add(new DashJobSystem())
-                .Add(new TranslateSystem())
+                .Add(new UserInputSystem())    // received input & (test: add request)
+                .Add(new RequestSystem())      // allocation request
+                .Add(new RunJobSystem())       // handle run job
+                .Add(new DashJobSystem())      // handle dash job
+                .Add(new TranslateSystem())    // translate with velocity component
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())
 #endif
@@ -39,7 +38,7 @@ namespace EntityComponentSystem.Example {
         private void InitEntity() {
             int entity = world.NewEntity();
             
-            ref var input = ref manager.AddComponent<InputComponent>(entity);
+            ref var input = ref manager.AddComponent<InputComponent>(entity);        
             input.inputFrom = InputFrom.User;
  
             ref var translate = ref manager.AddComponent<TranslateComponent>(entity);
@@ -47,8 +46,10 @@ namespace EntityComponentSystem.Example {
 
             ref var request = ref manager.AddComponent<RequestComponent>(entity);
             request.Init();
+
+            ref var velocity = ref manager.AddComponent<VelocityComponent>(entity);
+            velocity.saveVelocity = Vector3.forward;
             
-            manager.AddComponent<VelocityComponent>(entity);
             manager.AddComponent<RunRequestComponent>(entity);
             manager.AddComponent<DashRequestComponent>(entity);
         }

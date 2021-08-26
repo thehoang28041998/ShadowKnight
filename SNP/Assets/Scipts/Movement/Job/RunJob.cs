@@ -1,11 +1,6 @@
-using EntityComponentSystem.Model;
-using Leopotam.EcsLite.Threads;
 using Leopotam.EcsLite.Threads.Unity;
 using Movement.Component;
 using Unity.Collections;
-using UnityEngine;
-using UserInput.Component;
-using UserInput.Model;
 
 namespace Movement.Job {
     public struct RunJob : IEcsUnityJob<VelocityComponent, RunRequestComponent> {
@@ -33,15 +28,15 @@ namespace Movement.Job {
             VelocityComponent velocityComponent = pool1[pool1Idx];
             
             int pool2Idx = indices2[entity];
-            RunRequestComponent requestComponent = pool2[pool2Idx];
+            RunRequestComponent runRequest = pool2[pool2Idx];
 
-            if (!requestComponent.IsFinish) {
-                requestComponent.Update(deltaTime);
-                velocityComponent.velocity += requestComponent.GetVelocity(deltaTime);
+            if (!runRequest.IsFinish) {
+                runRequest.Update(deltaTime);
+                velocityComponent.velocity += runRequest.GetVelocity(deltaTime);
             }
 
             pool1[pool1Idx] = velocityComponent;
-            pool2[pool2Idx] = requestComponent;
+            pool2[pool2Idx] = runRequest;
         }
     }
 }

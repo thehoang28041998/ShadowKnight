@@ -1,8 +1,14 @@
 using System.Collections.Generic;
 using Movement.Model;
+#if UNITY_EDITOR
+using UnityEditor;    
+#endif
 
 namespace Movement.Component {
-    public struct RequestComponent : IComponent {
+    public struct RequestComponent : IComponent , IComponentDebug{
+        /// <summary>
+        /// don't add, get, remove 
+        /// </summary>
         private List<IRequest> requests;
 
         public void Init() {
@@ -45,5 +51,17 @@ namespace Movement.Component {
                 requests.Remove(r);
             }
         }
+
+        public List<IRequest> Requests {
+            get => requests;
+        }
+
+#if UNITY_EDITOR
+        public void OnGUI() {
+            foreach (var r in requests) {
+                EditorGUILayout.LabelField(r.RequestType.ToString());
+            }
+        }
+#endif
     }
 }

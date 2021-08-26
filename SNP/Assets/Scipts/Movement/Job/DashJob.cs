@@ -27,15 +27,15 @@ namespace Movement.Job {
             VelocityComponent velocityComponent = pool1[pool1Idx];
             
             int pool2Idx = indices2[entity];
-            DashRequestComponent requestComponent = pool2[pool2Idx];
+            DashRequestComponent dashRequest = pool2[pool2Idx];
 
-            if (!requestComponent.IsFinish) {
-                requestComponent.Update(deltaTime);
-                velocityComponent.velocity += requestComponent.GetVelocity(deltaTime);
+            if (!dashRequest.IsFinish) {
+                dashRequest.Update(deltaTime);
+                velocityComponent.velocity += dashRequest.GetVelocity(deltaTime);
             }
 
             pool1[pool1Idx] = velocityComponent;
-            pool2[pool2Idx] = requestComponent;
+            pool2[pool2Idx] = dashRequest;
         }
     }
 }

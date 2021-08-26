@@ -25,8 +25,10 @@ namespace UserInput.Job {
                 inputComponent.Reset();
                 
                 if (inputComponent.inputFrom == InputFrom.User) {
-                    inputComponent.direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-                    if(Input.GetKeyDown(KeyCode.L)) inputComponent.isDash = true;
+                    inputComponent.direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+                    if(Input.GetKey(KeyCode.L)) {
+                        inputComponent.isDash = true;
+                    }
 
                     if (inputComponent.direction != Vector3.zero) {
                         inputComponent.isRunning = true;
@@ -34,11 +36,11 @@ namespace UserInput.Job {
 
                     if (inputComponent.isDash) {
                         var velocity = entityManager.GetComponent<VelocityComponent>(entity);
-                        requestComponent.AddRequest(new DashRequestComponent(10, 1.0f, velocity.saveVelocity));
+                        requestComponent.AddRequest(new DashRequestComponent(10, 0.3f, velocity.saveVelocity.normalized));
                     }
 
                     if (inputComponent.isRunning) {
-                       requestComponent.AddRequest(new RunRequestComponent(inputComponent.direction));
+                       requestComponent.AddRequest(new RunRequestComponent(inputComponent.direction.normalized));
                     }
                 }
             }

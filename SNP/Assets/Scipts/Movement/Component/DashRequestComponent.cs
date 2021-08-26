@@ -18,10 +18,17 @@ namespace Movement.Component {
         public DashRequestComponent(float dashDistance, float dashDuration, Vector3 direction) {
             this.dashDistance = dashDistance;
             this.dashDuration = dashDuration;
-            this.direction = direction.normalized;
+            this.direction = direction;
             this.abort = false;
             this.elapsed = 0.0f;
             this.previousDistance = 0.0f;
+        }
+
+        public Tuple<RequestType, MovementAction>[] Rule {
+            get => new[] {
+                new Tuple<RequestType, MovementAction>(RequestType.Dash, MovementAction.AllowCurrent), // 
+                new Tuple<RequestType, MovementAction>(RequestType.Run, MovementAction.AllowCurrent), // allow current 
+            };
         }
 
         public RequestType RequestType {

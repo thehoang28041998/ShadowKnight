@@ -1,6 +1,6 @@
 namespace Movement.Model {
     public enum MovementAction {
-        Allow ,// current,
-        Abort // current
+        AllowCurrent ,// current,
+        AbortCurrent // current
     }
 }

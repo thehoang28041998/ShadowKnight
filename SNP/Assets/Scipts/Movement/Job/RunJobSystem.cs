@@ -1,10 +1,8 @@
 using System;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Threads;
 using Leopotam.EcsLite.Threads.Unity;
 using Movement.Component;
 using UnityEngine;
-using UserInput.Component;
 
 namespace Movement.Job {
     public class RunJobSystem : EcsUnityJobSystem<RunJob, VelocityComponent, RunRequestComponent> {
