@@ -1,5 +1,6 @@
 namespace Movement.Model {
-    public enum MovementRequestType {
-        Run
+    public enum RequestType {
+        Run,
+        Dash
     }
 }

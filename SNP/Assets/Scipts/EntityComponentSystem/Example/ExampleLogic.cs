@@ -23,13 +23,14 @@ namespace EntityComponentSystem.Example {
             systems = new EcsSystems(world);
             systems
                 .Add(new UserInputSystem())
+                .Add(new AddRunSystem())
+                .Add(new AddDashRequest())
                 .Add(new RunJobSystem())
                 .Add(new DashJobSystem())
                 .Add(new TranslateSystem())
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())
 #endif
-                .Add(new ClearInputSystem())
                 .Init();
 
             InitEntity();
@@ -40,11 +41,16 @@ namespace EntityComponentSystem.Example {
             
             ref var input = ref manager.AddComponent<InputComponent>(entity);
             input.inputFrom = InputFrom.User;
+ 
+            ref var translate = ref manager.AddComponent<TranslateComponent>(entity);
+            translate.Controller = player;
 
-            ref var velocity = ref manager.AddComponent<VelocityComponent>(entity);
-
-            ref var transform = ref manager.AddComponent<TranslateComponent>(entity);
-            transform.Controller = player;
+            ref var request = ref manager.AddComponent<RequestComponent>(entity);
+            request.Init();
+            
+            manager.AddComponent<VelocityComponent>(entity);
+            manager.AddComponent<RunRequestComponent>(entity);
+            manager.AddComponent<DashRequestComponent>(entity);
         }
 
         private void Update() {

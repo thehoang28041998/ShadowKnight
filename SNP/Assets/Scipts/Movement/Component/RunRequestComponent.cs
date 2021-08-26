@@ -10,10 +10,14 @@ namespace Movement.Component {
         private bool abort;
         private Vector3 direction;
 
-        public void SetDirection(Vector3 direction) {
+        public RunRequestComponent(Vector3 direction) {
             this.finish = false;
             this.abort = false;
             this.direction = direction;
+        }
+
+        public RequestType RequestType {
+            get => RequestType.Run;
         }
 
         public Vector3 GetVelocity(float dt) {
@@ -37,6 +41,10 @@ namespace Movement.Component {
 
         public void Abort() {
             abort = true;
+        }
+
+        public Vector3 Direction {
+            get => direction;
         }
 
 #if UNITY_EDITOR

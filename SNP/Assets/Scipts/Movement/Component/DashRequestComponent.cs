@@ -14,12 +14,16 @@ namespace Movement.Component {
         private float elapsed;
         private bool abort;
 
-        public void SetDash(float dashDistance, float dashDuration) {
+        public DashRequestComponent(float dashDistance, float dashDuration) {
             this.dashDistance = dashDistance;
             this.dashDuration = dashDuration;
             this.abort = false;
             this.elapsed = 0.0f;
             this.previousDistance = 0.0f;
+        }
+
+        public RequestType RequestType {
+            get => RequestType.Dash;
         }
 
         public Vector3 GetVelocity(float dt) {
@@ -55,6 +59,14 @@ namespace Movement.Component {
 
         public void Abort() {
             abort = true;
+        }
+
+        public float DashDuration {
+            get => dashDuration;
+        }
+
+        public float DashDistance {
+            get => dashDistance;
         }
 
 #if UNITY_EDITOR
