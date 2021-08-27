@@ -18,10 +18,5 @@ namespace Movement.Job {
         protected override EcsWorld GetWorld(EcsSystems systems) {
             return systems.GetWorld();
         }
-        
-        protected override void SetData(EcsSystems systems, ref DashJob job) {
-            base.SetData(systems, ref job);
-            job.deltaTime = Time.deltaTime;
-        }
     }
 }

@@ -1,6 +1,8 @@
 using Leopotam.EcsLite.Threads.Unity;
 using Movement.Component;
 using Unity.Collections;
+using UnityEngine;
+using Utils;
 
 namespace Movement.Job {
     public struct RunJob : IEcsUnityJob<VelocityComponent, RunComponent> {
@@ -11,7 +13,6 @@ namespace Movement.Job {
         [NativeDisableParallelForRestriction] 
         private NativeArray<RunComponent> pool2;
         private NativeArray<int> indices2;
-        public float deltaTime { get; set; }
 
         public void Init(NativeArray<int> entities, NativeArray<VelocityComponent> pool1, NativeArray<int> indices1,
                          NativeArray<RunComponent> pool2, NativeArray<int> indices2) {
@@ -32,7 +33,7 @@ namespace Movement.Job {
 
             if (!run.IsFinish) {
                 run.finish = true;
-                velocityComponent.velocity += deltaTime * speed * run.direction;
+                velocityComponent.velocity += GameLoop.TimeDelta * speed * run.direction;
             }
 
             pool1[pool1Idx] = velocityComponent;

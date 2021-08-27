@@ -1,4 +1,10 @@
+using System.Collections.Generic;
+using System.IO;
 using EntityComponentSystem.Model;
+using FiniteStateMachine.Component;
+using FiniteStateMachine.Job;
+using FiniteStateMachine.Model;
+using FiniteStateMachine.State;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.UnityEditor;
 using Movement.Component;
@@ -23,6 +29,7 @@ namespace EntityComponentSystem.Example {
             systems = new EcsSystems(world, manager);
             systems
                 .Add(new UserInputSystem()) // received input & (test: add request)
+                .Add(new StateMachineSystem())
                 .Add(new RequestSystem()) // allocation request
                 .Add(new RunJobSystem()) // handle run job
                 .Add(new DashJobSystem()) // handle dash job
@@ -49,9 +56,36 @@ namespace EntityComponentSystem.Example {
            
             // todo: add animation component
             // todo: add finite state machine component
+            object[] parameter = FiniteStateMachineParameter(entity);
+            manager.AddComponent<StateMachineComponent>(entity) = new StateMachineComponent(
+                parameter[0] as IState,
+                parameter[1] as Stack<StateName>,
+                parameter[2] as Dictionary<StateName, IState>,
+                parameter[3] as Dictionary<StateName, StateName[]>
+            );
         }
 
-        private void Update() {
+        private object[] FiniteStateMachineParameter(int entity) {
+            object[] parameter = new object[4];
+
+            parameter[0] = new IdleState(manager, entity);
+
+            parameter[1] = new Stack<StateName>();
+            
+            Dictionary<StateName, IState> define = new Dictionary<StateName, IState>();
+            define.Add(StateName.IDLE, new IdleState(manager, entity));
+            define.Add(StateName.RUN, new RunState(manager, entity));
+            parameter[2] = define;
+
+            Dictionary<StateName, StateName[]> transition = new Dictionary<StateName, StateName[]>();
+            transition.Add(StateName.IDLE, new[] {StateName.RUN});
+            transition.Add(StateName.RUN, new[] {StateName.IDLE});
+            parameter[3] = transition;
+            
+            return parameter;
+        }
+
+        private void FixedUpdate() {
             systems?.Run();
         }
 

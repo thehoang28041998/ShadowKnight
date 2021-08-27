@@ -3,6 +3,7 @@ using Leopotam.EcsLite.Threads.Unity;
 using Movement.Component;
 using Unity.Collections;
 using UnityEngine;
+using Utils;
 
 namespace Movement.Job {
     public struct DashJob : IEcsUnityJob<VelocityComponent, DashComponent> {
@@ -13,7 +14,6 @@ namespace Movement.Job {
         [NativeDisableParallelForRestriction] 
         private NativeArray<DashComponent> pool2;
         private NativeArray<int> indices2;
-        public float deltaTime { get; set; }
         
         public void Init(NativeArray<int> entities, NativeArray<VelocityComponent> pool1, NativeArray<int> indices1, NativeArray<DashComponent> pool2, NativeArray<int> indices2) {
             this.entities = entities;
@@ -32,7 +32,7 @@ namespace Movement.Job {
             DashComponent dash = pool2[pool2Idx];
 
             if (!dash.IsFinish) {
-                dash.elapsed += deltaTime;
+                dash.elapsed += GameLoop.TimeDelta;
                 
                 float progress = dash.elapsed / dash.dashDuration;
                 progress = Math.Min(progress, 1.0f);
