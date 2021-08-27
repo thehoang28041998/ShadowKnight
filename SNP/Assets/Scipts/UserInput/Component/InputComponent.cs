@@ -9,6 +9,13 @@ namespace UserInput.Component {
         public bool isDash;
         public InputFrom inputFrom;
 
+        public InputComponent(InputFrom inputFrom) {
+            this.inputFrom = inputFrom;
+            this.direction = Vector3.zero;
+            this.isRunning = false;
+            this.isDash = false;
+        }
+
         public void Reset() {
             direction = Vector3.zero;
             isDash = false;

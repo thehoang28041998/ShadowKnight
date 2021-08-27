@@ -1,6 +1,7 @@
 using EntityComponentSystem.Model;
 using Leopotam.EcsLite;
 using Movement.Component;
+using Movement.Request;
 using UnityEngine;
 using UserInput.Component;
 using UserInput.Model;
@@ -10,7 +11,7 @@ namespace UserInput.Job {
         private EntityManager entityManager;
         
         public void Init(EcsSystems systems) {
-            entityManager = EntityManager.Instance;
+            entityManager = systems.GetShared<EntityManager>();
         }
 
         public void Run(EcsSystems systems) {
@@ -36,11 +37,11 @@ namespace UserInput.Job {
 
                     if (inputComponent.isDash) {
                         var velocity = entityManager.GetComponent<VelocityComponent>(entity);
-                        requestComponent.AddRequest(new DashRequestComponent(10, 0.3f, velocity.saveVelocity.normalized));
+                        requestComponent.AddRequest(new DashRequest(10, 0.3f, velocity.saveVelocity.normalized));
                     }
 
                     if (inputComponent.isRunning) {
-                       requestComponent.AddRequest(new RunRequestComponent(inputComponent.direction.normalized));
+                        requestComponent.AddRequest(new RunRequest(inputComponent.direction.normalized));
                     }
                 }
             }

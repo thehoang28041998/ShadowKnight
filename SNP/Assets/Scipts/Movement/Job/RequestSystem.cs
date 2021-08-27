@@ -4,6 +4,7 @@ using EntityComponentSystem.Model;
 using Leopotam.EcsLite;
 using Movement.Component;
 using Movement.Model;
+using Movement.Request;
 using UnityEngine;
 
 namespace Movement.Job {
@@ -11,12 +12,12 @@ namespace Movement.Job {
         private EntityManager entityManager;
 
         public void Init(EcsSystems systems) {
-            entityManager = EntityManager.Instance;
+            entityManager = systems.GetShared<EntityManager>();
         }
 
         public void Run(EcsSystems systems) {
             EcsWorld world = systems.GetWorld();
-            var filter = world.Filter<RequestComponent>().Inc<DashRequestComponent>().End();
+            var filter = world.Filter<RequestComponent>().Inc<DashComponent>().End();
             var pool = world.GetPool<RequestComponent>();
 
             foreach (var entity in filter) {
@@ -42,20 +43,20 @@ namespace Movement.Job {
                 //Debug.Log($"Allow: {r.RequestType}");
                 switch (r.RequestType) {
                     case RequestType.Dash:
-                        ref var dash = ref entityManager.GetComponent<DashRequestComponent>(entity);
-                        if (dash.IsFinish) {
-                            var dashRequest = (DashRequestComponent) r;
-                            dash = new DashRequestComponent(dashRequest.DashDistance, dashRequest.DashDuration,
-                                dashRequest.DashDirection);
+                        ref var dashRequestComponent = ref entityManager.GetComponent<DashComponent>(entity);
+                        if (dashRequestComponent.IsFinish) {
+                            var dashRequest = (DashRequest) r;
+                            dashRequestComponent = new DashComponent(dashRequest.dashDistance, dashRequest.dashDuration,
+                                dashRequest.direction);
                             //Debug.Log("Dash success");
                         }
 
                         break;
                     case RequestType.Run:
-                        ref var run = ref entityManager.GetComponent<RunRequestComponent>(entity);
+                        ref var run = ref entityManager.GetComponent<RunComponent>(entity);
                         if (run.IsFinish) {
-                            var runRequest = (RunRequestComponent) r;
-                            run = new RunRequestComponent(runRequest.Direction);
+                            var runRequest = (RunRequest) r;
+                            run = new RunComponent(runRequest.direction);
                             //Debug.Log("Run success");
                         }
 
@@ -71,10 +72,7 @@ namespace Movement.Job {
             if (requests.Count < 2) return;
 
             for (int i = 0; i < requests.Count; i++) {
-                IRequest r = requests[i];
-                if (r.IsFinish) continue;
-
-                IRequest first = r;
+                IRequest first = requests[i];
 
                 RequestType firstType = first.RequestType;
                 Tuple<RequestType, MovementAction>[] firstRule = first.Rule;
@@ -103,17 +101,17 @@ namespace Movement.Job {
                             //Debug.Log($"Abort: {after.RequestType}");
                             switch (after.RequestType) {
                                 case RequestType.Dash:
-                                    ref var dash = ref entityManager.GetComponent<DashRequestComponent>(entity);
+                                    ref var dash = ref entityManager.GetComponent<DashComponent>(entity);
                                     dash.Abort();
                                     break;
                                 case RequestType.Run:
-                                    ref var run = ref entityManager.GetComponent<RunRequestComponent>(entity);
+                                    ref var run = ref entityManager.GetComponent<RunComponent>(entity);
                                     run.Abort();
                                     break;
 
                             }
 
-                            requestComponent.RemoveRequest(r.RequestType);
+                            requestComponent.RemoveRequest(firstType);
                             break;
                     }
                 }

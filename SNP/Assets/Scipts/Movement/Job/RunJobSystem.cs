@@ -5,13 +5,13 @@ using Movement.Component;
 using UnityEngine;
 
 namespace Movement.Job {
-    public class RunJobSystem : EcsUnityJobSystem<RunJob, VelocityComponent, RunRequestComponent> {
+    public class RunJobSystem : EcsUnityJobSystem<RunJob, VelocityComponent, RunComponent> {
         protected override int GetChunkSize(EcsSystems systems) {
             return Environment.ProcessorCount;
         }
 
         protected override EcsFilter GetFilter(EcsWorld world) {
-            EcsFilter filter = world.Filter<VelocityComponent>().Inc<RunRequestComponent>().End();
+            EcsFilter filter = world.Filter<VelocityComponent>().Inc<RunComponent>().End();
             return filter;
         }
 

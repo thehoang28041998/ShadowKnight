@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Movement.Model;
+using Movement.Request;
 #if UNITY_EDITOR
 using UnityEditor;    
 #endif
