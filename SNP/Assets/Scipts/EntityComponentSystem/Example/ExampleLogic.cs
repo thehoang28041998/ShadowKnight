@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using EntityComponentSystem.Model;
@@ -9,6 +10,8 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.UnityEditor;
 using Movement.Component;
 using Movement.Job;
+using Skill.Model;
+using Skill.Trigger;
 using UnityAnimation.Component;
 using UnityEngine;
 using UserInput.Component;
@@ -22,6 +25,14 @@ namespace EntityComponentSystem.Example {
         private EcsWorld world;
         private EcsSystems systems;
         private EntityManager manager;
+
+#if UNITY_EDITOR
+        public SkillFrameConfig skillFrameConfig;     
+#endif
+
+        private void Awake() {
+            skillFrameConfig.Deserialization();
+        }
 
         private void Start() {
             world = new EcsWorld();
@@ -90,6 +101,22 @@ namespace EntityComponentSystem.Example {
             parameter[3] = transition;
             
             return parameter;
+        }
+
+
+        private void LateUpdate() {
+            ref var baseEvent = ref skillFrameConfig.baseEvent;
+            ref var trigger = ref baseEvent.trigger;
+            switch (baseEvent.trigger.TriggerType) {
+                case TriggerType.Event:
+                    var _event = (EventTrigger) trigger;
+                    Debug.Log($"{_event.eventId}");
+                    break;
+                case TriggerType.Frame:
+                    var _frame = (TimelineTrigger) trigger;
+                    Debug.Log($"{_frame.frame}, {_frame.scale}");
+                    break;
+            }
         }
 
         private void FixedUpdate() {

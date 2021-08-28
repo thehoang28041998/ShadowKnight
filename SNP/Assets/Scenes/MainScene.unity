@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 170797298}
+  skillFrameConfig: {fileID: 11400000, guid: 9cd2d8e41bfd83349a097635e487759f, type: 2}
 --- !u!1 &939190832
 GameObject:
   m_ObjectHideFlags: 0
