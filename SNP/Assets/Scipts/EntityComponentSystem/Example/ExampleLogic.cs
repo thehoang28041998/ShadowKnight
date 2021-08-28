@@ -9,6 +9,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.UnityEditor;
 using Movement.Component;
 using Movement.Job;
+using UnityAnimation.Component;
 using UnityEngine;
 using UserInput.Component;
 using UserInput.Job;
@@ -55,6 +56,8 @@ namespace EntityComponentSystem.Example {
             manager.AddComponent<DashComponent>(entity) = new DashComponent();
            
             // todo: add animation component
+            manager.AddComponent<AnimationComponent>(entity) = new AnimationComponent(player.GetComponentInChildren<Animation>());
+            
             // todo: add finite state machine component
             object[] parameter = FiniteStateMachineParameter(entity);
             manager.AddComponent<StateMachineComponent>(entity) = new StateMachineComponent(

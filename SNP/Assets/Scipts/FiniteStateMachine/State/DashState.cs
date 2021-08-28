@@ -3,6 +3,7 @@ using FiniteStateMachine.Component;
 using FiniteStateMachine.Model;
 using Movement.Component;
 using Movement.Request;
+using UnityAnimation.Component;
 using UserInput.Component;
 
 namespace FiniteStateMachine.State {
@@ -21,7 +22,8 @@ namespace FiniteStateMachine.State {
 
         public void Enter(StateName @from, bool isContinue) {
             // todo: play animation dash in here
-            
+            entityManager.GetComponent<AnimationComponent>(entity).PlayDash();
+
             // todo: start dash request
             var velocity = entityManager.GetComponent<VelocityComponent>(entity).saveVelocity;
             entityManager.GetComponent<RequestComponent>(entity).AddRequest(new DashRequest(10, 0.3f, velocity.normalized));
