@@ -1,6 +1,8 @@
 using EntityComponentSystem.Model;
 using FiniteStateMachine.Component;
 using FiniteStateMachine.Model;
+using Movement.Component;
+using Movement.Request;
 using UserInput.Component;
 
 namespace FiniteStateMachine.State {
@@ -22,20 +24,21 @@ namespace FiniteStateMachine.State {
         }
 
         public void Update(ref StateMachineComponent component, float dt) {
-            ref var inputComponent = ref entityManager.GetComponent<InputComponent>(entity);
+            var inputComponent = entityManager.GetComponent<InputComponent>(entity);
 
             if (inputComponent.isDash) {
-                // change state to the dash state
+                // todo: change state to the dash state
                 component.ListenChangeState(StateName.DASH, ChangeStateMethod.Backup);
                 return;
             }
 
             if (inputComponent.isRunning) {
-                // update request run
+                // todo: update request run
+                entityManager.GetComponent<RequestComponent>(entity).AddRequest(new RunRequest(inputComponent.direction.normalized));
                 return;
             }
             
-            // go to the idle state
+            // todo: go to the idle state
             component.ListenChangeState(StateName.IDLE, ChangeStateMethod.GoBack);
         }
 

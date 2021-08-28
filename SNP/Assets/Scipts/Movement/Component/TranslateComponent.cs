@@ -15,7 +15,7 @@ namespace Movement.Component {
         }
 
         public void Rotate(Vector3 direction) {
-            if (Math.Abs(direction.x) <= 0 && Math.Abs(direction.z) <= 0) return;
+            if (direction == Vector3.zero) return;
             
             Quaternion inputRotation = Quaternion.LookRotation(direction, Vector3.up);
             controller.transform.rotation = Quaternion.Lerp(controller.transform.rotation, inputRotation, 500.0f);

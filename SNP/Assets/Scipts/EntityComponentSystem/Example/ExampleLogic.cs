@@ -75,11 +75,13 @@ namespace EntityComponentSystem.Example {
             Dictionary<StateName, IState> define = new Dictionary<StateName, IState>();
             define.Add(StateName.IDLE, new IdleState(manager, entity));
             define.Add(StateName.RUN, new RunState(manager, entity));
+            define.Add(StateName.DASH, new DashState(manager, entity));
             parameter[2] = define;
 
             Dictionary<StateName, StateName[]> transition = new Dictionary<StateName, StateName[]>();
-            transition.Add(StateName.IDLE, new[] {StateName.RUN});
-            transition.Add(StateName.RUN, new[] {StateName.IDLE});
+            transition.Add(StateName.IDLE, new[] {StateName.RUN, StateName.DASH});
+            transition.Add(StateName.RUN, new[] {StateName.IDLE, StateName.DASH});
+            transition.Add(StateName.DASH, new[] {StateName.RUN, StateName.IDLE});
             parameter[3] = transition;
             
             return parameter;

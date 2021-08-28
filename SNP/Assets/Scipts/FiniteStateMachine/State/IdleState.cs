@@ -35,8 +35,6 @@ namespace FiniteStateMachine.State {
                 component.ListenChangeState(StateName.RUN, ChangeStateMethod.Backup);
                 return;
             }
-            
-            // go to the idle state
         }
 
         public void Exit() {

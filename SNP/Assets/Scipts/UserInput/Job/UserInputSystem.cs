@@ -34,15 +34,6 @@ namespace UserInput.Job {
                     if (inputComponent.direction != Vector3.zero) {
                         inputComponent.isRunning = true;
                     }
-
-                    if (inputComponent.isDash) {
-                        var velocity = entityManager.GetComponent<VelocityComponent>(entity);
-                        requestComponent.AddRequest(new DashRequest(10, 0.3f, velocity.saveVelocity.normalized));
-                    }
-
-                    if (inputComponent.isRunning) {
-                        requestComponent.AddRequest(new RunRequest(inputComponent.direction.normalized));
-                    }
                 }
             }
         }
