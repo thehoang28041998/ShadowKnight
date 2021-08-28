@@ -3,6 +3,7 @@ using FiniteStateMachine.Component;
 using FiniteStateMachine.Model;
 using Movement.Component;
 using Movement.Request;
+using UnityAnimation.Component;
 using UserInput.Component;
 
 namespace FiniteStateMachine.State {
@@ -21,6 +22,7 @@ namespace FiniteStateMachine.State {
 
         public void Enter(StateName @from, bool isContinue) {
             // todo: play animation run in here
+            entityManager.GetComponent<AnimationComponent>(entity).PlayRun();
         }
 
         public void Update(ref StateMachineComponent component, float dt) {
