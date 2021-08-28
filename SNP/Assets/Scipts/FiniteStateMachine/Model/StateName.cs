@@ -4,5 +4,6 @@ namespace FiniteStateMachine.Model {
         IDLE,
         RUN, 
         DASH,
+        ATTACK
     }
 }

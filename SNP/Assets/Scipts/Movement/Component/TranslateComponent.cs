@@ -5,7 +5,7 @@ using Utils;
 
 namespace Movement.Component {
     public struct TranslateComponent : IComponent {
-        [SerializeField] private CharacterController controller;
+        [SerializeField] private readonly CharacterController controller;
 
         public TranslateComponent(CharacterController controller) {
             this.controller = controller;

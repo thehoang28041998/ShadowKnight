@@ -31,6 +31,11 @@ namespace FiniteStateMachine.State {
             elaped += dt;
             ref var inputComponent = ref entityManager.GetComponent<InputComponent>(entity);
 
+            if (inputComponent.isAttack) {
+                component.ListenChangeState(StateName.ATTACK, ChangeStateMethod.Backup);
+                return;
+            }
+
             if (inputComponent.isDash) {
                 // change state to the dash state
                 component.ListenChangeState(StateName.DASH, ChangeStateMethod.Backup);

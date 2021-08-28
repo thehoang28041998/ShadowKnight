@@ -9,26 +9,31 @@ using UserInput.Model;
 namespace UserInput.Job {
     public class UserInputSystem : IEcsInitSystem, IEcsRunSystem {
         private EntityManager entityManager;
-        
+
         public void Init(EcsSystems systems) {
             entityManager = systems.GetShared<EntityManager>();
         }
 
         public void Run(EcsSystems systems) {
-            EcsWorld world = systems.GetWorld ();
+            EcsWorld world = systems.GetWorld();
             var filter = world.Filter<InputComponent>().Inc<RequestComponent>().End();
             var pool = world.GetPool<InputComponent>();
 
             foreach (var entity in filter) {
                 ref var inputComponent = ref pool.Get(entity);
                 ref var requestComponent = ref entityManager.GetComponent<RequestComponent>(entity);
-                
+
                 inputComponent.Reset();
-                
+
                 if (inputComponent.inputFrom == InputFrom.User) {
-                    inputComponent.direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-                    if(Input.GetKey(KeyCode.L)) {
+                    inputComponent.direction =
+                        new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+                    if (Input.GetKey(KeyCode.L)) {
                         inputComponent.isDash = true;
+                    }
+
+                    if (Input.GetKey(KeyCode.J)) {
+                        inputComponent.isAttack = true;
                     }
 
                     if (inputComponent.direction != Vector3.zero) {

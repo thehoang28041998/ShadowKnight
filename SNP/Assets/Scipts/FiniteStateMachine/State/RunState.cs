@@ -28,6 +28,11 @@ namespace FiniteStateMachine.State {
         public void Update(ref StateMachineComponent component, float dt) {
             var inputComponent = entityManager.GetComponent<InputComponent>(entity);
 
+            if (inputComponent.isAttack) {
+                component.ListenChangeState(StateName.ATTACK, ChangeStateMethod.Backup);
+                return;
+            }
+            
             if (inputComponent.isDash) {
                 // todo: change state to the dash state
                 component.ListenChangeState(StateName.DASH, ChangeStateMethod.Backup);
