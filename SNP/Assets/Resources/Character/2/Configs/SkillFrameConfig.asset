@@ -13,27 +13,27 @@ MonoBehaviour:
   m_Name: SkillFrameConfig
   m_EditorClassIdentifier: 
   skillClassName: DefaultSkill
-  totalFrame: 1
-  channelingFrame: 1
-  animationSpeed: 1
-  animationName: 
+  totalFrame: 123
+  channelingFrame: 231
+  animationSpeed: 123
+  animationName: qweqeqww
   events:
   - '{'
   - '  "collections": ['
   - '    {'
-  - '      "enable": false,'
+  - '      "enable": true,'
   - '      "trigger": {'
   - '        "$type": "Scipts.Skill.Runtime.Trigger.TimelineTrigger, Assembly-CSharp",'
-  - '        "frame": 234,'
-  - '        "scale": 423.0,'
+  - '        "frame": 10,'
+  - '        "scale": 20.0,'
   - '        "TriggerType": 0'
   - '      },'
   - '      "eventInfo": {'
   - '        "$type": "Scipts.Skill.Runtime.EventInfo.AnimationEventInfo, Assembly-CSharp",'
-  - '        "animationName": "1sad",'
-  - '        "animationSpeed": 1.0,'
-  - '        "crossFade": 4.0,'
-  - '        "playMethod": 1,'
+  - '        "animationName": "hoang",'
+  - '        "animationSpeed": 123.0,'
+  - '        "crossFade": 0.0,'
+  - '        "playMethod": 0,'
   - '        "EventType": 0'
   - '      },'
   - '      "foldEditor": true'
@@ -42,5 +42,5 @@ MonoBehaviour:
   - '}'
   eventCollections:
     collections:
-    - enable: 0
+    - enable: 1
       foldEditor: 1

@@ -8,7 +8,10 @@ using Scipts.FiniteStateMachine.Model;
 using Scipts.FiniteStateMachine.State;
 using Scipts.Movement.Component;
 using Scipts.Movement.Job;
+using Scipts.Skill.Component;
 using Scipts.Skill.Config.Model;
+using Scipts.Skill.Job;
+using Scipts.Skill.Model;
 using Scipts.UnityAnimation.Component;
 using Scipts.UserInput.Component;
 using Scipts.UserInput.Job;
@@ -22,10 +25,6 @@ namespace Scipts.EntityComponentSystem.Example {
         private EcsWorld world;
         private EcsSystems systems;
         private EntityManager manager;
-
-#if UNITY_EDITOR
-        public SkillFrameConfig skillFrameConfig;     
-#endif
 
         private void Awake() {
             // skillFrameConfig
@@ -44,6 +43,7 @@ namespace Scipts.EntityComponentSystem.Example {
                 .Add(new RequestSystem()) // allocation request
                 .Add(new RunJobSystem()) // handle run job
                 .Add(new DashJobSystem()) // handle dash job
+                .Add(new SkillSystem())  // 
                 .Add(new TranslateSystem()) // translate with velocity component
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())
@@ -66,16 +66,28 @@ namespace Scipts.EntityComponentSystem.Example {
             manager.AddComponent<DashComponent>(entity) = new DashComponent();
            
             // todo: add animation component
+            object factoryParameter = DictionarySkillEquipped();
+            manager.AddComponent<SkillFactoryComponent>(entity) = new SkillFactoryComponent(factoryParameter as Dictionary<SkillId, SkillFrameConfig>);
             manager.AddComponent<AnimationComponent>(entity) = new AnimationComponent(player.GetComponentInChildren<Animation>());
             
+            // todo: add skill component & reference
+            manager.AddComponent<SkillComponent>(entity) = new SkillComponent(manager, entity);
+            
             // todo: add finite state machine component
-            object[] parameter = FiniteStateMachineParameter(entity);
+            object[] stateMachineParameter = FiniteStateMachineParameter(entity);
             manager.AddComponent<StateMachineComponent>(entity) = new StateMachineComponent(
-                parameter[0] as IState,
-                parameter[1] as Stack<StateName>,
-                parameter[2] as Dictionary<StateName, IState>,
-                parameter[3] as Dictionary<StateName, StateName[]>
+                stateMachineParameter[0] as IState,
+                stateMachineParameter[1] as Stack<StateName>,
+                stateMachineParameter[2] as Dictionary<StateName, IState>,
+                stateMachineParameter[3] as Dictionary<StateName, StateName[]>
             );
+        }
+
+        private object DictionarySkillEquipped() {
+            Dictionary<SkillId, SkillFrameConfig> dictionary = new Dictionary<SkillId, SkillFrameConfig>();
+            dictionary[new SkillId(1, SkillCategory.Attack, 1)] =
+                    Resources.Load<SkillFrameConfig>("Character/2/Configs/SkillFrameConfig");
+            return dictionary;
         }
 
         private object[] FiniteStateMachineParameter(int entity) {

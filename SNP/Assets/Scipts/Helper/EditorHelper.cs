@@ -68,8 +68,8 @@ namespace Scipts.Helper {
         public class Vertical : IDisposable {
             private readonly int pixels;
 
-            public Vertical() {
-                GUILayout.BeginVertical();
+            public Vertical(string text) {
+                GUILayout.BeginVertical(text);
             }
 
             public Vertical(GUIStyle style, string text = "", int pixels = 0) {
