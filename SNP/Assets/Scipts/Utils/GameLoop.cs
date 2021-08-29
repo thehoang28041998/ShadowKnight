@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Utils {
+namespace Scipts.Utils {
     public class GameLoop {
         public static readonly float TimeDelta = Time.fixedDeltaTime;
     }

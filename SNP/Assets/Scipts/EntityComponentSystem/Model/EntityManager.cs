@@ -1,7 +1,6 @@
 using Leopotam.EcsLite;
-using UnityEngine;
 
-namespace EntityComponentSystem.Model {
+namespace Scipts.EntityComponentSystem.Model {
     public class EntityManager {
         private readonly EcsWorld world;
         private static EntityManager instance;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnityAnimation.Component {
+namespace Scipts.UnityAnimation.Component {
     public struct AnimationComponent : IComponent {
         private readonly Animation animation;
 

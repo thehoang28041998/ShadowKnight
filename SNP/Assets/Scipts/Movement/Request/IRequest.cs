@@ -1,7 +1,6 @@
-using Movement.Model;
-using UnityEngine;
+using Scipts.Movement.Model;
 
-namespace Movement.Request {
+namespace Scipts.Movement.Request {
     public interface IRequest {
         System.Tuple<RequestType, MovementAction>[] Rule { get; }
         RequestType RequestType { get; }

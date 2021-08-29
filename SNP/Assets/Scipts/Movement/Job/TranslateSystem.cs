@@ -1,8 +1,8 @@
 using Leopotam.EcsLite;
-using Movement.Component;
+using Scipts.Movement.Component;
 using UnityEngine;
 
-namespace Movement.Job {
+namespace Scipts.Movement.Job {
     public struct TranslateSystem : IEcsRunSystem {
         public void Run(EcsSystems systems) {
             EcsWorld world = systems.GetWorld ();

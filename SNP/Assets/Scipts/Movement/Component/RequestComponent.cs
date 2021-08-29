@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using Movement.Model;
-using Movement.Request;
+using Scipts.Movement.Model;
+using Scipts.Movement.Request;
+using UnityEditor;
 #if UNITY_EDITOR
-using UnityEditor;    
+
 #endif
 
-namespace Movement.Component {
+namespace Scipts.Movement.Component {
     public struct RequestComponent : IComponent , IComponentDebug{
         /// <summary>
         /// don't add, get, remove 

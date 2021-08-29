@@ -1,10 +1,9 @@
 using System;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Threads.Unity;
-using Movement.Component;
-using UnityEngine;
+using Scipts.Movement.Component;
 
-namespace Movement.Job {
+namespace Scipts.Movement.Job {
     public class RunJobSystem : EcsUnityJobSystem<RunJob, VelocityComponent, RunComponent> {
         protected override int GetChunkSize(EcsSystems systems) {
             return Environment.ProcessorCount;

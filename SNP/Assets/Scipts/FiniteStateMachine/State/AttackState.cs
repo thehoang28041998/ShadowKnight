@@ -1,11 +1,10 @@
-using EntityComponentSystem.Model;
-using FiniteStateMachine.Component;
-using FiniteStateMachine.Model;
-using UnityAnimation.Component;
-using UnityEngine;
-using UserInput.Component;
+using Scipts.EntityComponentSystem.Model;
+using Scipts.FiniteStateMachine.Component;
+using Scipts.FiniteStateMachine.Model;
+using Scipts.UnityAnimation.Component;
+using Scipts.UserInput.Component;
 
-namespace FiniteStateMachine.State {
+namespace Scipts.FiniteStateMachine.State {
     public struct AttackState : IState {
         private const float MAX_COMBO = 3;
         private const float SCALE = 0.75f;

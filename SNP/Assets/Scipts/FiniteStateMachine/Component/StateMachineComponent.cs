@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiniteStateMachine.Model;
-using FiniteStateMachine.State;
-using UnityEditor;
+using Scipts.FiniteStateMachine.Model;
+using Scipts.FiniteStateMachine.State;
 using UnityEngine;
 
-namespace FiniteStateMachine.Component {
+namespace Scipts.FiniteStateMachine.Component {
     public struct StateMachineComponent : IComponent{
         public IState current;
         public Stack<StateName> stack;

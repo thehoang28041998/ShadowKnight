@@ -1,23 +1,21 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
-using EntityComponentSystem.Model;
-using FiniteStateMachine.Component;
-using FiniteStateMachine.Job;
-using FiniteStateMachine.Model;
-using FiniteStateMachine.State;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.UnityEditor;
-using Movement.Component;
-using Movement.Job;
-using Skill.Config.Model;
-using UnityAnimation.Component;
+using Scipts.EntityComponentSystem.Model;
+using Scipts.FiniteStateMachine.Component;
+using Scipts.FiniteStateMachine.Job;
+using Scipts.FiniteStateMachine.Model;
+using Scipts.FiniteStateMachine.State;
+using Scipts.Movement.Component;
+using Scipts.Movement.Job;
+using Scipts.Skill.Config.Model;
+using Scipts.UnityAnimation.Component;
+using Scipts.UserInput.Component;
+using Scipts.UserInput.Job;
+using Scipts.UserInput.Model;
 using UnityEngine;
-using UserInput.Component;
-using UserInput.Job;
-using UserInput.Model;
 
-namespace EntityComponentSystem.Example {
+namespace Scipts.EntityComponentSystem.Example {
     public class ExampleLogic : MonoBehaviour {
         public CharacterController player;
 

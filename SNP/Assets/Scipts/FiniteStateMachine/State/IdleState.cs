@@ -1,10 +1,10 @@
-using EntityComponentSystem.Model;
-using FiniteStateMachine.Component;
-using FiniteStateMachine.Model;
-using UnityAnimation.Component;
-using UserInput.Component;
+using Scipts.EntityComponentSystem.Model;
+using Scipts.FiniteStateMachine.Component;
+using Scipts.FiniteStateMachine.Model;
+using Scipts.UnityAnimation.Component;
+using Scipts.UserInput.Component;
 
-namespace FiniteStateMachine.State {
+namespace Scipts.FiniteStateMachine.State {
     public struct IdleState : IState {
         private const float TIME_REQUIREMENT_CAN_CHANGE_RUN_STATE = 0.1f;
         private EntityManager entityManager;

@@ -1,8 +1,7 @@
-using EntityComponentSystem.Model;
+using Scipts.UserInput.Model;
 using UnityEngine;
-using UserInput.Model;
 
-namespace UserInput.Component {
+namespace Scipts.UserInput.Component {
     public struct InputComponent : IComponent {
         public Vector3 direction;
         public bool isRunning;

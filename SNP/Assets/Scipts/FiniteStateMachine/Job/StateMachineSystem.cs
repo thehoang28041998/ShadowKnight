@@ -1,12 +1,11 @@
 using System;
-using FiniteStateMachine.Component;
-using FiniteStateMachine.Model;
-using FiniteStateMachine.State;
 using Leopotam.EcsLite;
-using UnityEngine;
-using Utils;
+using Scipts.FiniteStateMachine.Component;
+using Scipts.FiniteStateMachine.Model;
+using Scipts.FiniteStateMachine.State;
+using Scipts.Utils;
 
-namespace FiniteStateMachine.Job {
+namespace Scipts.FiniteStateMachine.Job {
     public class StateMachineSystem : IEcsRunSystem{
         public void Run(EcsSystems systems) {
             EcsWorld world = systems.GetWorld ();

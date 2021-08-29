@@ -1,12 +1,11 @@
-using EntityComponentSystem.Model;
 using Leopotam.EcsLite;
-using Movement.Component;
-using Movement.Request;
+using Scipts.EntityComponentSystem.Model;
+using Scipts.Movement.Component;
+using Scipts.UserInput.Component;
+using Scipts.UserInput.Model;
 using UnityEngine;
-using UserInput.Component;
-using UserInput.Model;
 
-namespace UserInput.Job {
+namespace Scipts.UserInput.Job {
     public class UserInputSystem : IEcsInitSystem, IEcsRunSystem {
         private EntityManager entityManager;
 

@@ -1,10 +1,11 @@
-using UnityEngine;
-using Utils;
-#if UNITY_EDITOR
+using Scipts.Utils;
 using UnityEditor;
+using UnityEngine;
+#if UNITY_EDITOR
+
 #endif
 
-namespace Skill.Config.Model {
+namespace Scipts.Skill.Config.Model {
     [CreateAssetMenu(fileName = "SkillFrameConfig", menuName = "ScripObject/SkillFrameConfig")]
     public class SkillFrameConfig : ScriptableObject {
         public string skillClassName = "DefaultSkill";

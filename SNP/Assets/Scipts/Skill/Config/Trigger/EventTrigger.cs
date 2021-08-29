@@ -1,8 +1,9 @@
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 
-namespace Skill.Config.Trigger {
+namespace Scipts.Skill.Config.Trigger {
     [System.Serializable]
     public class EventTrigger : BaseTrigger {
         public int eventId;

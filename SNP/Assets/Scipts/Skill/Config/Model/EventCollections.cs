@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
-using Helper;
-using UnityEngine;
-using EventType = Skill.Config.EventInfo.EventType;
-#if UNITY_EDITOR
+using Scipts.Helper;
 using UnityEditor;
+using UnityEngine;
+using EventType = Scipts.Skill.Config.EventInfo.EventType;
+#if UNITY_EDITOR
+
 #endif
 
-namespace Skill.Config.Model {
+namespace Scipts.Skill.Config.Model {
     [Serializable]    
     public class EventCollections {
         public List<BaseEvent> collections = new List<BaseEvent>();

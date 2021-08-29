@@ -1,3 +1,4 @@
+using Scipts.Skill.Config.Model;
 using UnityEditor;
 using UnityEngine;
 

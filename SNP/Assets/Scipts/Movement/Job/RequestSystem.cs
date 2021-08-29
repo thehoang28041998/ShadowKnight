@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using EntityComponentSystem.Model;
 using Leopotam.EcsLite;
-using Movement.Component;
-using Movement.Model;
-using Movement.Request;
-using UnityEngine;
+using Scipts.EntityComponentSystem.Model;
+using Scipts.Movement.Component;
+using Scipts.Movement.Model;
+using Scipts.Movement.Request;
 
-namespace Movement.Job {
+namespace Scipts.Movement.Job {
     public struct RequestSystem : IEcsInitSystem, IEcsRunSystem {
         private EntityManager entityManager;
 

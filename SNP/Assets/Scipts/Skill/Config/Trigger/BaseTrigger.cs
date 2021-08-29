@@ -1,10 +1,11 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 #if UNITY_EDITOR
-using UnityEditor;
+
 #endif
 
-namespace Skill.Config.Trigger {
+namespace Scipts.Skill.Config.Trigger {
     [Serializable]
     public abstract class BaseTrigger {
         [SerializeField] protected string triggerType;

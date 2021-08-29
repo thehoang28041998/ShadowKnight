@@ -1,12 +1,11 @@
-using Exception;
-using Skill.Config.EventInfo;
-using Skill.Config.Trigger;
-using UnityEngine.Serialization;
+using Scipts.Exception;
+using Scipts.Skill.Config.EventInfo;
+using Scipts.Skill.Config.Trigger;
 #if UNITY_EDITOR
-using UnityEditor;
+
 #endif
 
-namespace Skill.Config.Model {
+namespace Scipts.Skill.Config.Model {
     [System.Serializable]
     public class BaseEvent {
         public bool enable;

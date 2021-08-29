@@ -2,7 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Helper {
+namespace Scipts.Helper {
     public static class EditorHelper {
         public class Indent : IDisposable {
             private int indentLevel;

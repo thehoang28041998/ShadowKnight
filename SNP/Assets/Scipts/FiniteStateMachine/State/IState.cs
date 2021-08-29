@@ -1,7 +1,7 @@
-using FiniteStateMachine.Component;
-using FiniteStateMachine.Model;
+using Scipts.FiniteStateMachine.Component;
+using Scipts.FiniteStateMachine.Model;
 
-namespace FiniteStateMachine.State {
+namespace Scipts.FiniteStateMachine.State {
     public interface IState {
         StateName StateName { get; }
         void Enter(StateName from, bool isContinue);

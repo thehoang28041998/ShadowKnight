@@ -1,12 +1,12 @@
-using EntityComponentSystem.Model;
-using FiniteStateMachine.Component;
-using FiniteStateMachine.Model;
-using Movement.Component;
-using Movement.Request;
-using UnityAnimation.Component;
-using UserInput.Component;
+using Scipts.EntityComponentSystem.Model;
+using Scipts.FiniteStateMachine.Component;
+using Scipts.FiniteStateMachine.Model;
+using Scipts.Movement.Component;
+using Scipts.Movement.Request;
+using Scipts.UnityAnimation.Component;
+using Scipts.UserInput.Component;
 
-namespace FiniteStateMachine.State {
+namespace Scipts.FiniteStateMachine.State {
     public struct RunState : IState {
         private EntityManager entityManager;
         private int entity;

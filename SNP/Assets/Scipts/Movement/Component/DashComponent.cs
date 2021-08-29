@@ -1,11 +1,9 @@
-using System;
-using Movement.Model;
 using UnityEngine;
 #if UNITY_EDITOR
-using UnityEditor;
+
 #endif
 
-namespace Movement.Component {
+namespace Scipts.Movement.Component {
     public struct DashComponent : IComponent {
         public readonly float dashDistance;
         public readonly float dashDuration;

@@ -1,9 +1,10 @@
-using UnityAnimation.Model;
-#if UNITY_EDITOR
+using Scipts.UnityAnimation.Model;
 using UnityEditor;
+#if UNITY_EDITOR
+
 #endif
 
-namespace Skill.Config.EventInfo {
+namespace Scipts.Skill.Config.EventInfo {
     public class AnimationEventInfo : BaseEventInfo {
         private string animationName;
         private float animationSpeed = 1.0f;

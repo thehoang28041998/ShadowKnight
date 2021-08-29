@@ -1,10 +1,9 @@
 using Leopotam.EcsLite.Threads.Unity;
-using Movement.Component;
+using Scipts.Movement.Component;
+using Scipts.Utils;
 using Unity.Collections;
-using UnityEngine;
-using Utils;
 
-namespace Movement.Job {
+namespace Scipts.Movement.Job {
     public struct RunJob : IEcsUnityJob<VelocityComponent, RunComponent> {
         private NativeArray<int> entities;
         [NativeDisableParallelForRestriction] 

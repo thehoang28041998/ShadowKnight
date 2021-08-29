@@ -1,9 +1,6 @@
-using System;
-using EntityComponentSystem.Model;
 using UnityEngine;
-using Utils;
 
-namespace Movement.Component {
+namespace Scipts.Movement.Component {
     public struct TranslateComponent : IComponent {
         [SerializeField] private readonly CharacterController controller;
 
