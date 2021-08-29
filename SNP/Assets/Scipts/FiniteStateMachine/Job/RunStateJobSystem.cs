@@ -1,16 +1,16 @@
 using System;
 using Leopotam.EcsLite;
-using Scipts.FiniteStateMachine.Component;
 using Leopotam.EcsLite.Threads.Unity;
+using Scipts.FiniteStateMachine.Component;
 
 namespace Scipts.FiniteStateMachine.Job {
-    public class IdleStateJobSystem : EcsUnityJobSystem<IdleStateJob, IdleStateComponent> {
+    public class RunStateJobSystem : EcsUnityJobSystem<RunStateJob, RunStateComponent> {
         protected override int GetChunkSize(EcsSystems systems) {
             return Environment.ProcessorCount;
         }
 
         protected override EcsFilter GetFilter(EcsWorld world) {
-            EcsFilter filter = world.Filter<IdleStateComponent>().Inc<StateMachineComponent>().End();
+            EcsFilter filter = world.Filter<RunStateComponent>().End();
             return filter;
         }
 

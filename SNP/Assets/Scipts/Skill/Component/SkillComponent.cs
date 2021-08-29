@@ -23,9 +23,9 @@ namespace Scipts.Skill.Component {
             EditorHelper.SetText(queueString);
             GUILayout.Space(10);
 
-            foreach (var piece in ongoingSkills) {
+            /*foreach (var piece in ongoingSkills) {
                 piece.OnGUI();
-            }
+            }*/
         }
 #endif
     }

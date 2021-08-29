@@ -5,9 +5,9 @@ namespace Scipts.EntityComponentSystem.Model {
         private readonly EcsWorld world;
         private static EntityManager instance;
 
-        /*public static EntityManager Instance {
+        public static EntityManager Instance {
             get => instance;
-        }*/
+        }
 
         public EntityManager(EcsWorld world) {
             this.world = world;

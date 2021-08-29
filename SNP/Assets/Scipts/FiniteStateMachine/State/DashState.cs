@@ -41,5 +41,9 @@ namespace Scipts.FiniteStateMachine.State {
         public void Exit() {
             // todo: remove listen dash behaviour
         }
+
+        public void GUI() {
+            
+        }
     }
 }

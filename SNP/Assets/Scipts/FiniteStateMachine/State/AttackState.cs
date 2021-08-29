@@ -65,6 +65,10 @@ namespace Scipts.FiniteStateMachine.State {
         public void Exit() {
         }
 
+        public void GUI() {
+            
+        }
+
         private float GetDuration(int idx) {
             switch (idx) {
                 case 1: return 0.43f;

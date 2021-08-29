@@ -3,38 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using Scipts.FiniteStateMachine.Model;
 using Scipts.FiniteStateMachine.State;
+using UnityEditor;
 using UnityEngine;
 
 namespace Scipts.FiniteStateMachine.Component {
-    public struct StateMachineComponent : IComponent{
-        public IState current;
-        public Stack<StateName> stack;
-        public readonly Dictionary<StateName, IState> define;
-        [SerializeField] private readonly Dictionary<StateName, StateName[]> transition;
-
+    public struct StateMachineComponent : IComponent {
+        public StateName current;
         public StateName queueState;
+        public Stack<StateName> stack;
         public ChangeStateMethod queueMethod;
+        public readonly List<StateName> define;
+        public readonly Dictionary<StateName, StateName[]> transition;
 
-        public StateMachineComponent(IState current, Stack<StateName> stack, Dictionary<StateName, IState> define,
+        public StateMachineComponent(StateName current, Stack<StateName> stack, List<StateName> define,
                                      Dictionary<StateName, StateName[]> transition) {
             this.current = current;
             this.stack = stack;
             this.define = define;
             this.transition = transition;
-            this.queueState = StateName.UNDEFINE;
+            this.queueState = StateName.IDLE;
             this.queueMethod = ChangeStateMethod.Backup;
-            this.stack.Push(StateName.IDLE);
+            this.stack.Push(current);
         }
 
         void CheckDefine(StateName name) {
-            if (!define.ContainsKey(name)) {
+            if (!define.Contains(name)) {
                 throw new NotSupportedException($"State '{name}' is not defined");
             }
         }
 
         void CheckTransitionLegal(StateName name) {
-            if (!transition.ContainsKey(current.StateName) || !transition[current.StateName].Contains(name)) {
-                throw new NotSupportedException($"Illegal state transition from {current.StateName} to {name}");
+            if (!transition.ContainsKey(current) || !transition[current].Contains(name)) {
+                throw new NotSupportedException($"Illegal state transition from {current} to {name}");
             }
         }
 
@@ -43,7 +43,7 @@ namespace Scipts.FiniteStateMachine.Component {
 
             CheckDefine(name);
             CheckTransitionLegal(name);
-            
+
             this.queueState = name;
             this.queueMethod = method;
         }

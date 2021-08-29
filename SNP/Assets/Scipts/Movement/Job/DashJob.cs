@@ -32,7 +32,7 @@ namespace Scipts.Movement.Job {
             DashComponent dash = pool2[pool2Idx];
 
             if (!dash.IsFinish) {
-                dash.elapsed += GameLoop.TimeDelta;
+                dash.elapsed += GameLoop.TIME_DELTA;
                 
                 float progress = dash.elapsed / dash.dashDuration;
                 progress = Math.Min(progress, 1.0f);

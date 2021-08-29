@@ -32,7 +32,7 @@ namespace Scipts.Movement.Job {
 
             if (!run.IsFinish) {
                 run.finish = true;
-                velocityComponent.velocity += GameLoop.TimeDelta * speed * run.direction;
+                velocityComponent.velocity += GameLoop.TIME_DELTA * speed * run.direction;
             }
 
             pool1[pool1Idx] = velocityComponent;
