@@ -2,17 +2,16 @@
 using UnityEditor;
 #endif
 
-namespace Skill.Trigger {
+namespace Skill.Config.Trigger {
     [System.Serializable]
-    public struct EventTrigger : ITrigger {
+    public class EventTrigger : BaseTrigger {
         public int eventId;
-
-        public TriggerType TriggerType {
-            get => TriggerType.Event;
+      
+        public EventTrigger() : base(TriggerType.Event) {
         }
 
 #if UNITY_EDITOR
-        public void OnGUI() {
+        protected override void OnDetailGUI() {
             eventId = EditorGUILayout.IntField($"EventId", eventId);
         }
 #endif

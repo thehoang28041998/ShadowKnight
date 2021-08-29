@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Skill.Model.Editor {
+namespace Skill.Config.Model.Editor {
     [CustomEditor(typeof(SkillFrameConfig))]
     public class SkillFrameConfigEditor : UnityEditor.Editor {
         public override void OnInspectorGUI() {

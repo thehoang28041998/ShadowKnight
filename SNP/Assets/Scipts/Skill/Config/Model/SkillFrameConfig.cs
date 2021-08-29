@@ -1,11 +1,10 @@
-using Skill.Event;
 using UnityEngine;
 using Utils;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace Skill.Model {
+namespace Skill.Config.Model {
     [CreateAssetMenu(fileName = "SkillFrameConfig", menuName = "ScripObject/SkillFrameConfig")]
     public class SkillFrameConfig : ScriptableObject {
         public string skillClassName = "DefaultSkill";
@@ -13,12 +12,13 @@ namespace Skill.Model {
         public int channelingFrame = 1;
         public float animationSpeed = 1.0f;
         public string animationName;
-        public string[] events;
+        [SerializeField] private string[] events;
 
-        [HideInInspector] public BaseEvent baseEvent = new BaseEvent();
+        [HideInInspector] public EventCollections eventCollections = new EventCollections();
 
         public void Deserialization() {
-            baseEvent = new JsonHelper().Deserialization<BaseEvent>(events);
+            if (events == null || events.Length == 0) return;
+            eventCollections = new JsonHelper().Deserialization<EventCollections>(events);
         }
 
 #if UNITY_EDITOR
@@ -29,10 +29,10 @@ namespace Skill.Model {
             animationName = EditorGUILayout.TextField("Animation Name", animationName);
             animationSpeed = EditorGUILayout.FloatField("Animation Speed", animationSpeed);
 
-            if (baseEvent.trigger == null) Deserialization();
-            baseEvent.OnGUI();
+            if (eventCollections.collections == null || eventCollections.collections.Count == 0) Deserialization();
+            eventCollections.OnGUI();
 
-            events = new JsonHelper().SerializeObjectToStringArray(baseEvent);
+            events = new JsonHelper().SerializeObjectToStringArray(eventCollections);
             EditorUtility.SetDirty(this);
         }
 #endif

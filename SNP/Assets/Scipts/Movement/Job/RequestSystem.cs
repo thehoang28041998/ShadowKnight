@@ -78,7 +78,7 @@ namespace Movement.Job {
                 Tuple<RequestType, MovementAction>[] firstRule = first.Rule;
                 if (firstRule == null) {
                     string msg = "MovementHandleUnit: mixing configuration not found for request of type " + firstType;
-                    throw new Exception(msg);
+                    throw new System.Exception(msg);
                 }
 
                 for (int k = i + 1; k < requests.Count; k++) {
