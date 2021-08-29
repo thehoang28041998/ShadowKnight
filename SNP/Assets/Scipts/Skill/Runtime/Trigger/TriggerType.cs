@@ -1,4 +1,4 @@
-namespace Scipts.Skill.Config.Trigger {
+namespace Scipts.Skill.Runtime.Trigger {
     public enum TriggerType {
         Frame,
         Event

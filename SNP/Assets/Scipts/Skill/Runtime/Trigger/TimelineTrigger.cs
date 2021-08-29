@@ -1,22 +1,21 @@
 #if UNITY_EDITOR
 using UnityEditor;
-
 #endif
 
-namespace Scipts.Skill.Config.Trigger {
+namespace Scipts.Skill.Runtime.Trigger {
     [System.Serializable]
-    public class TimelineTrigger : BaseTrigger {
+    public struct TimelineTrigger : ITrigger {
         public int frame;
-        public float scale = 1.0f;
-
-        public TimelineTrigger() : base(TriggerType.Frame) {
-        }
+        public float scale;
 
 #if UNITY_EDITOR
-        protected override void OnDetailGUI() {
+        public void OnGUI() {
             frame = EditorGUILayout.IntField("Frame", frame);
             scale = EditorGUILayout.FloatField("Scale", scale);
         }
 #endif
+        public TriggerType TriggerType {
+            get => TriggerType.Frame;
+        }
     }
 }

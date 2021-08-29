@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Scipts.Helper;
 using UnityEditor;
 using UnityEngine;
-using EventType = Scipts.Skill.Config.EventInfo.EventType;
+using EventType = Scipts.Skill.Runtime.EventInfo.EventType;
 #if UNITY_EDITOR
 
 #endif
@@ -40,7 +40,9 @@ namespace Scipts.Skill.Config.Model {
                         );
 
                         if (GUILayout.Button("Add", GUILayout.ExpandWidth(false), GUILayout.Width(50))) {
-                            collections.Add(new BaseEvent(new BaseEvent().GenerationEventInfo((EventType) i)));
+                            collections.Add(new BaseEvent {
+                                    eventInfo = new BaseEvent().GenerationEventInfo((EventType) i)
+                            });
                         }
                     }
 

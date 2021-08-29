@@ -10,13 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72d28be2c2314b49b2f3eb227ac6fe25, type: 3}
-  m_Name: 
+  m_Name: SkillFrameConfig
   m_EditorClassIdentifier: 
   skillClassName: DefaultSkill
   totalFrame: 1
   channelingFrame: 1
   animationSpeed: 1
   animationName: 
-  json: "{\n    \"enable\": false\n}"
-  event:
-    enable: 0
+  events:
+  - '{'
+  - '  "collections": ['
+  - '    {'
+  - '      "enable": false,'
+  - '      "trigger": {'
+  - '        "$type": "Scipts.Skill.Runtime.Trigger.TimelineTrigger, Assembly-CSharp",'
+  - '        "frame": 234,'
+  - '        "scale": 423.0,'
+  - '        "TriggerType": 0'
+  - '      },'
+  - '      "eventInfo": {'
+  - '        "$type": "Scipts.Skill.Runtime.EventInfo.AnimationEventInfo, Assembly-CSharp",'
+  - '        "animationName": "1sad",'
+  - '        "animationSpeed": 1.0,'
+  - '        "crossFade": 4.0,'
+  - '        "playMethod": 1,'
+  - '        "EventType": 0'
+  - '      },'
+  - '      "foldEditor": true'
+  - '    }'
+  - '  ]'
+  - '}'
+  eventCollections:
+    collections:
+    - enable: 0
+      foldEditor: 1
