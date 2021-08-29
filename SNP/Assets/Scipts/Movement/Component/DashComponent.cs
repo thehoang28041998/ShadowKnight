@@ -1,7 +1,4 @@
 using UnityEngine;
-#if UNITY_EDITOR
-
-#endif
 
 namespace Scipts.Movement.Component {
     public struct DashComponent : IComponent {

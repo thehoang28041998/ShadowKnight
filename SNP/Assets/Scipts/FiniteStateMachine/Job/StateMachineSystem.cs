@@ -15,8 +15,6 @@ namespace Scipts.FiniteStateMachine.Job {
             foreach (var entity in filter) {
                 ref var stateComponent = ref pool.Get(entity);
                 
-                stateComponent.current.Update(ref stateComponent, GameLoop.TimeDelta);
-                
                 if (stateComponent.queueState == StateName.UNDEFINE) continue;
 
                 switch (stateComponent.queueMethod) {

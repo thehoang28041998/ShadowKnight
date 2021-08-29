@@ -81,6 +81,8 @@ namespace Scipts.EntityComponentSystem.Example {
                 stateMachineParameter[2] as Dictionary<StateName, IState>,
                 stateMachineParameter[3] as Dictionary<StateName, StateName[]>
             );
+            Dictionary<StateName, IState> define = stateMachineParameter[2] as Dictionary<StateName, IState>;
+            manager.AddComponent<IdleStateComponent>(entity) = (IdleStateComponent) define[StateName.IDLE];
         }
 
         private object DictionarySkillEquipped() {
@@ -93,12 +95,12 @@ namespace Scipts.EntityComponentSystem.Example {
         private object[] FiniteStateMachineParameter(int entity) {
             object[] parameter = new object[4];
 
-            parameter[0] = new IdleState(manager, entity);
+            parameter[0] = new IdleStateComponent(manager, entity);
 
             parameter[1] = new Stack<StateName>();
             
             Dictionary<StateName, IState> define = new Dictionary<StateName, IState>();
-            define.Add(StateName.IDLE, new IdleState(manager, entity));
+            define.Add(StateName.IDLE, new IdleStateComponent(manager, entity));
             define.Add(StateName.RUN, new RunState(manager, entity));
             define.Add(StateName.DASH, new DashState(manager, entity));
             define.Add(StateName.ATTACK, new AttackState(manager, entity));
