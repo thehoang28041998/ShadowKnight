@@ -1,11 +1,11 @@
 using System;
 using Leopotam.EcsLite.Threads.Unity;
-using Movement.Component;
+using Scipts.Movement.Component;
+using Scipts.Utils;
 using Unity.Collections;
 using UnityEngine;
-using Utils;
 
-namespace Movement.Job {
+namespace Scipts.Movement.Job {
     public struct DashJob : IEcsUnityJob<VelocityComponent, DashComponent> {
         private NativeArray<int> entities;
         [NativeDisableParallelForRestriction] 
@@ -32,7 +32,7 @@ namespace Movement.Job {
             DashComponent dash = pool2[pool2Idx];
 
             if (!dash.IsFinish) {
-                dash.elapsed += GameLoop.TimeDelta;
+                dash.elapsed += GameLoop.TIME_DELTA;
                 
                 float progress = dash.elapsed / dash.dashDuration;
                 progress = Math.Min(progress, 1.0f);

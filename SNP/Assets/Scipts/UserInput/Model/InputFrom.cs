@@ -1,4 +1,4 @@
-namespace UserInput.Model {
+namespace Scipts.UserInput.Model {
     public enum InputFrom {
         Undefine,
         User,

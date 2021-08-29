@@ -1,8 +1,8 @@
 using System;
-using Movement.Model;
+using Scipts.Movement.Model;
 using UnityEngine;
 
-namespace Movement.Request {
+namespace Scipts.Movement.Request {
     public struct DashRequest : IRequest {
         public readonly float dashDistance;
         public readonly float dashDuration;

@@ -1,12 +1,12 @@
-using EntityComponentSystem.Model;
+using Scipts.UserInput.Model;
 using UnityEngine;
-using UserInput.Model;
 
-namespace UserInput.Component {
+namespace Scipts.UserInput.Component {
     public struct InputComponent : IComponent {
         public Vector3 direction;
         public bool isRunning;
         public bool isDash;
+        public bool isAttack;
         public InputFrom inputFrom;
 
         public InputComponent(InputFrom inputFrom) {
@@ -14,12 +14,14 @@ namespace UserInput.Component {
             this.direction = Vector3.zero;
             this.isRunning = false;
             this.isDash = false;
+            this.isAttack = false;
         }
 
         public void Reset() {
             direction = Vector3.zero;
             isDash = false;
             isRunning = false;
+            isAttack = false;
         }
     }
 }

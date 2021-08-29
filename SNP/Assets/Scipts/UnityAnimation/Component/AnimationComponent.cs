@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace UnityAnimation.Component {
+namespace Scipts.UnityAnimation.Component {
     public struct AnimationComponent : IComponent {
-        private Animation animation;
+        private readonly Animation animation;
 
         public AnimationComponent(Animation animation) {
             this.animation = animation;
@@ -30,6 +30,13 @@ namespace UnityAnimation.Component {
             animation.Play(DASH);
         }
 
+        public void PlayAttack(int index, float scale) {
+            string name = $"{ATTACK}{index}_1";
+            animation[name].speed = scale;
+            animation.Play(name);
+        }
+
+        private const string ATTACK = "Attack";
         private const string RUN = "Move1";
         private const string IDLE = "Idle";
         private const string DASH = "Dash";

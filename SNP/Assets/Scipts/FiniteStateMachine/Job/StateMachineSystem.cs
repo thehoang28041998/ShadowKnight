@@ -1,79 +1,161 @@
 using System;
-using FiniteStateMachine.Component;
-using FiniteStateMachine.Model;
-using FiniteStateMachine.State;
 using Leopotam.EcsLite;
-using UnityEngine;
-using Utils;
+using Scipts.EntityComponentSystem.Model;
+using Scipts.FiniteStateMachine.Component;
+using Scipts.FiniteStateMachine.Model;
 
-namespace FiniteStateMachine.Job {
-    public class StateMachineSystem : IEcsRunSystem{
+namespace Scipts.FiniteStateMachine.Job {
+    public class StateMachineSystem : IEcsInitSystem, IEcsRunSystem {
+        private EntityManager entityManager;
+
+        public void Init(EcsSystems systems) {
+            entityManager = systems.GetShared<EntityManager>();
+        }
+
         public void Run(EcsSystems systems) {
-            EcsWorld world = systems.GetWorld ();
+            EcsWorld world = systems.GetWorld();
             var filter = world.Filter<StateMachineComponent>().End();
             var pool = world.GetPool<StateMachineComponent>();
 
             foreach (var entity in filter) {
                 ref var stateComponent = ref pool.Get(entity);
-                
-                stateComponent.current.Update(ref stateComponent, GameLoop.TimeDelta);
-                
                 if (stateComponent.queueState == StateName.UNDEFINE) continue;
 
                 switch (stateComponent.queueMethod) {
                     case ChangeStateMethod.Backup:
-                        ChangeWithBackup(ref stateComponent, stateComponent.queueState);
+                        ChangeWithBackup(ref stateComponent, stateComponent.queueState, entityManager, entity);
                         break;
                     case ChangeStateMethod.Replace:
-                        ReplaceState(ref stateComponent, stateComponent.queueState);
+                        ReplaceState(ref stateComponent, stateComponent.queueState, entityManager, entity);
                         break;
                     case ChangeStateMethod.GoBack:
-                        GotoBackPrevious(ref stateComponent);
+                        GotoBackPrevious(ref stateComponent, entityManager, entity);
                         break;
                 }
-                
+
                 stateComponent.ResetQueue();
             }
         }
 
-        private void ReplaceState(ref StateMachineComponent component, StateName name) {
-            if(component.stack.Count < 1) throw new NotSupportedException("There is no current state to replace (StateStack is empty)");
+        private void ReplaceState(ref StateMachineComponent component, StateName name, EntityManager entityManager,
+                                  int entity) {
+            if (component.stack.Count < 1)
+                throw new NotSupportedException("There is no current state to replace (StateStack is empty)");
 
-            StateName preEnum = component.stack.Pop();
-            IState preState = component.define[preEnum];
-            preState.Exit();
-            
-            component.stack.Push(name);
-
-            component.current = component.define[name];
-            component.current.Enter(preEnum, false);
-        }
-
-        private void GotoBackPrevious(ref StateMachineComponent component) {
-            if(component.stack.Count < 1) throw new NotSupportedException("There is no current state to replace (StateStack is empty)");
-
-            StateName preState = component.stack.Pop();
-            StateName nextState = component.stack.Peek();
-            
-            component.current.Exit();
-            component.current = component.define[nextState];
-            component.current.Enter(preState, true);
-        }
-
-        private void ChangeWithBackup(ref StateMachineComponent component, StateName name) {
-            if (component.current.StateName.Equals(name)) return;
-            IState newState = component.define[name];
-
-            StateName previous = StateName.UNDEFINE;
-            if (component.stack.Count > 0) {
-                StateName sn = component.stack.Peek();
-                component.define[sn].Exit();
-                previous = sn;
+            // todo: exit current state
+            switch (component.current) {
+                case StateName.IDLE:
+                    entityManager.GetComponent<IdleStateComponent>(entity).Exit();
+                    break;
+                case StateName.RUN:
+                    entityManager.GetComponent<RunStateComponent>(entity).Exit();
+                    break;
+                case StateName.DASH:
+                    entityManager.GetComponent<DashStateComponent>(entity).Exit();
+                    break;
+                case StateName.ATTACK:
+                    entityManager.GetComponent<AttackStateComponent>(entity).Exit();
+                    break;
             }
 
-            component.current = newState;
+            // todo: enter new state
+            StateName previous = component.stack.Pop();
+            component.current = name;
             component.stack.Push(name);
-            component.current.Enter(previous, false);
+            switch (name) {
+                case StateName.IDLE:
+                    entityManager.GetComponent<IdleStateComponent>(entity).Enter(previous, false, entityManager);
+                    break;
+                case StateName.RUN:
+                    entityManager.GetComponent<RunStateComponent>(entity).Enter(previous, false, entityManager);
+                    break;
+                case StateName.DASH:
+                    entityManager.GetComponent<DashStateComponent>(entity).Enter(previous, false, entityManager);
+                    break;
+                case StateName.ATTACK:
+                    entityManager.GetComponent<AttackStateComponent>(entity).Enter(previous, false, entityManager);
+                    break;
+            }
+        }
+
+        private void GotoBackPrevious(ref StateMachineComponent component, EntityManager entityManager,
+                                      int entity) {
+            if (component.stack.Count < 1)
+                throw new NotSupportedException("There is no current state to replace (StateStack is empty)");
+
+            // todo: exit current state
+            switch (component.current) {
+                case StateName.IDLE:
+                    entityManager.GetComponent<IdleStateComponent>(entity).Exit();
+                    break;
+                case StateName.RUN:
+                    entityManager.GetComponent<RunStateComponent>(entity).Exit();
+                    break;
+                case StateName.DASH:
+                    entityManager.GetComponent<DashStateComponent>(entity).Exit();
+                    break;
+                case StateName.ATTACK:
+                    entityManager.GetComponent<AttackStateComponent>(entity).Exit();
+                    break;
+            }
+
+            // todo: enter new state
+            StateName previous = component.stack.Pop();
+            component.current = component.stack.Peek();
+            switch (component.current) {
+                case StateName.IDLE:
+                    entityManager.GetComponent<IdleStateComponent>(entity).Enter(previous, true, entityManager);
+                    break;
+                case StateName.RUN:
+                    entityManager.GetComponent<RunStateComponent>(entity).Enter(previous, true, entityManager);
+                    break;
+                case StateName.DASH:
+                    entityManager.GetComponent<DashStateComponent>(entity).Enter(previous, true, entityManager);
+                    break;
+                case StateName.ATTACK:
+                    entityManager.GetComponent<AttackStateComponent>(entity).Enter(previous, true, entityManager);
+                    break;
+            }
+        }
+
+        private void ChangeWithBackup(ref StateMachineComponent component, StateName name, EntityManager entityManager,
+                                      int entity) {
+            if (component.current == name) return;
+            
+            // todo: exit current state
+            switch (component.current) {
+                case StateName.IDLE:
+                    entityManager.GetComponent<IdleStateComponent>(entity).Exit();
+                    break;
+                case StateName.RUN:
+                    entityManager.GetComponent<RunStateComponent>(entity).Exit();
+                    break;
+                case StateName.DASH:
+                    entityManager.GetComponent<DashStateComponent>(entity).Exit();
+                    break;
+                case StateName.ATTACK:
+                    entityManager.GetComponent<AttackStateComponent>(entity).Exit();
+                    break;
+            }
+
+            // todo: enter new state
+            StateName previous = component.stack.Peek();
+            component.current = name;
+            component.stack.Push(name);
+            switch (name) {
+                case StateName.IDLE:
+                    entityManager.GetComponent<IdleStateComponent>(entity).Enter(previous, false, entityManager);
+                    break;
+                case StateName.RUN:
+                    entityManager.GetComponent<RunStateComponent>(entity).Enter(previous, false, entityManager);
+                    break;
+                case StateName.DASH:
+                    entityManager.GetComponent<DashStateComponent>(entity).Enter(previous, false, entityManager);
+                    break;
+                case StateName.ATTACK:
+                    entityManager.GetComponent<AttackStateComponent>(entity).Enter(previous, false, entityManager);
+                    break;
+            }
         }
     }
 }
