@@ -3,7 +3,7 @@ using Scipts.EntityComponentSystem.Model;
 using Scipts.Skill.Component;
 
 namespace Scipts.Skill.Job {
-    public class SkillSystem : IEcsInitSystem, IEcsRunSystem{
+    public struct SkillSystem : IEcsInitSystem, IEcsRunSystem{
         private EntityManager entityManager;
 
         public void Init(EcsSystems systems) {

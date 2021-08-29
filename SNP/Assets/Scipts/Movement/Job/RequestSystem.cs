@@ -10,6 +10,14 @@ namespace Scipts.Movement.Job {
     public struct RequestSystem : IEcsInitSystem, IEcsRunSystem {
         private EntityManager entityManager;
 
+        public RequestSystem(EcsSystems systems) {
+            this.entityManager = null;
+            systems // allocation request
+                .Add(new RunJobSystem()) // handle run job
+                .Add(new DashJobSystem()); // handle dash job
+        }
+
+
         public void Init(EcsSystems systems) {
             entityManager = systems.GetShared<EntityManager>();
         }
@@ -37,7 +45,7 @@ namespace Scipts.Movement.Job {
 
             List<IRequest> queue = new List<IRequest>();
             queue.AddRange(requestComponent.Requests);
-            
+
             foreach (var r in queue) {
                 //Debug.Log($"Allow: {r.RequestType}");
                 switch (r.RequestType) {

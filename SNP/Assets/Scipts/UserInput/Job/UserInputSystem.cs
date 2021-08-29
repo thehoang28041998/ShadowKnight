@@ -8,7 +8,7 @@ using Scipts.UserInput.Model;
 using UnityEngine;
 
 namespace Scipts.UserInput.Job {
-    public class UserInputSystem : IEcsInitSystem, IEcsRunSystem {
+    public struct UserInputSystem : IEcsInitSystem, IEcsRunSystem {
         private EntityManager entityManager;
 
         public void Init(EcsSystems systems) {

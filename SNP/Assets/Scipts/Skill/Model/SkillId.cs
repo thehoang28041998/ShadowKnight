@@ -1,9 +1,9 @@
 namespace Scipts.Skill.Model {
     public class SkillId {
-        private readonly int id;
-        private readonly SkillCategory category;
-        private readonly int subId;
-        private readonly string stringValue;
+        public readonly int id;
+        public readonly SkillCategory category;
+        public readonly int subId;
+        public readonly string stringValue;
 
         public SkillId(int id, SkillCategory category, int subId) {
             this.id = id;
@@ -15,15 +15,7 @@ namespace Scipts.Skill.Model {
         public SkillId Clone() {
             return new SkillId(id, category, subId);
         }
-
-        public SkillCategory SkillCategory {
-            get => category;
-        }
-
-        public int Id {
-            get => id;
-        }
-
+        
         public override string ToString() {
             return stringValue;
         }

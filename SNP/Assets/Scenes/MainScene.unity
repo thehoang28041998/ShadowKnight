@@ -172,7 +172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 170797298}
-  skillFrameConfig: {fileID: 11400000, guid: 9cd2d8e41bfd83349a097635e487759f, type: 2}
 --- !u!1 &939190832
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,11 +446,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5297604033454692794, guid: 5e1915b3b9c626d48abf970dfc4cd0a0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5297604033454692794, guid: 5e1915b3b9c626d48abf970dfc4cd0a0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.5
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 5297604033454692794, guid: 5e1915b3b9c626d48abf970dfc4cd0a0, type: 3}
       propertyPath: m_LocalRotation.w

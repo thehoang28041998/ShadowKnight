@@ -5,8 +5,16 @@ using Scipts.FiniteStateMachine.Component;
 using Scipts.FiniteStateMachine.Model;
 
 namespace Scipts.FiniteStateMachine.Job {
-    public class StateMachineSystem : IEcsInitSystem, IEcsRunSystem {
+    public struct StateMachineSystem : IEcsInitSystem, IEcsRunSystem {
         private EntityManager entityManager;
+
+        public StateMachineSystem(EcsSystems systems) {
+            this.entityManager = null;
+            systems.Add(new IdleStateJobSystem())
+                .Add(new RunStateJobSystem())
+                .Add(new DashStateJobSystem())
+                .Add(new AttackStateJobSystem());
+        }
 
         public void Init(EcsSystems systems) {
             entityManager = systems.GetShared<EntityManager>();

@@ -39,16 +39,8 @@ namespace Scipts.EntityComponentSystem.Example {
             systems
                 // todo: input
                 .Add(new UserInputSystem()) // received input & (test: add request)
-                // todo: state machine
-                .Add(new StateMachineSystem())
-                .Add(new IdleStateJobSystem())
-                .Add(new RunStateJobSystem())
-                .Add(new DashStateJobSystem())
-                .Add(new AttackStateJobSystem())
-                // todo: movement
-                .Add(new RequestSystem()) // allocation request
-                .Add(new RunJobSystem()) // handle run job
-                .Add(new DashJobSystem()) // handle dash job
+                .Add(new StateMachineSystem(systems))
+                .Add(new RequestSystem(systems))
                 .Add(new SkillSystem())  // 
                 .Add(new TranslateSystem()) // translate with velocity component
 #if UNITY_EDITOR
