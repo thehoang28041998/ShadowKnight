@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Scipts.FiniteStateMachine.Model;
-using Scipts.FiniteStateMachine.State;
-using UnityEditor;
-using UnityEngine;
 
 namespace Scipts.FiniteStateMachine.Component {
     public struct StateMachineComponent : IComponent {

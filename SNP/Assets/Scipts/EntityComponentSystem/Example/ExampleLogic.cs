@@ -5,7 +5,6 @@ using Scipts.EntityComponentSystem.Model;
 using Scipts.FiniteStateMachine.Component;
 using Scipts.FiniteStateMachine.Job;
 using Scipts.FiniteStateMachine.Model;
-using Scipts.FiniteStateMachine.State;
 using Scipts.Movement.Component;
 using Scipts.Movement.Job;
 using Scipts.Skill.Component;
@@ -44,6 +43,8 @@ namespace Scipts.EntityComponentSystem.Example {
                 .Add(new StateMachineSystem())
                 .Add(new IdleStateJobSystem())
                 .Add(new RunStateJobSystem())
+                .Add(new DashStateJobSystem())
+                .Add(new AttackStateJobSystem())
                 // todo: movement
                 .Add(new RequestSystem()) // allocation request
                 .Add(new RunJobSystem()) // handle run job
@@ -80,19 +81,27 @@ namespace Scipts.EntityComponentSystem.Example {
             // todo: add skill component & reference
             manager.AddComponent<SkillComponent>(entity) = new SkillComponent(manager, entity);
 
-            // todo: add finite state machine component
+            // todo: add finite state machine component - state component
+            // state component
             ref var idleState = ref manager.AddComponent<IdleStateComponent>(entity);
             idleState = new IdleStateComponent(entity);
             idleState.Enter(StateName.UNDEFINE, false, manager);
           
             ref var runState = ref manager.AddComponent<RunStateComponent>(entity);
             runState = new RunStateComponent(entity);
+
+            ref var dashState = ref manager.AddComponent<DashStateComponent>(entity);
+            dashState = new DashStateComponent(entity);
+
+            ref var attackState = ref manager.AddComponent<AttackStateComponent>(entity);
+            attackState = new AttackStateComponent(entity);
             
+            // state machine component
             manager.AddComponent<StateMachineComponent>(entity) = new StateMachineComponent(
                 StateName.IDLE,
                 new Stack<StateName>(),
                 new List<StateName> {
-                    StateName.IDLE, StateName.RUN
+                    StateName.IDLE, StateName.RUN, StateName.DASH, StateName.ATTACK
                 },
                 FiniteStateMachineParameter()
             );

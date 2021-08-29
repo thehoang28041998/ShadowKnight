@@ -4,12 +4,12 @@ using Scipts.UnityAnimation.Component;
 using UnityEngine;
 
 namespace Scipts.FiniteStateMachine.Component {
-    [System.Serializable]
     public struct IdleStateComponent : IComponent {
         public const float TIME_REQUIREMENT_CAN_CHANGE_RUN_STATE = 0.1f;
+        private readonly int entity;
+        
         public float elapsed;
         public bool isRunning;
-        [SerializeField] private int entity;
 
         public IdleStateComponent(int entity) {
             this.entity = entity;
@@ -18,7 +18,6 @@ namespace Scipts.FiniteStateMachine.Component {
         }
 
         public void Enter(StateName @from, bool isContinue, EntityManager entityManager) {
-            Debug.Log("idle enter");
             this.elapsed = 0.0f;
             this.isRunning = true;
 
@@ -26,7 +25,6 @@ namespace Scipts.FiniteStateMachine.Component {
         }
 
         public void Exit() {
-            Debug.Log("idle exit");
             this.isRunning = false;
         }
     }

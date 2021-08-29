@@ -3,9 +3,6 @@ using Leopotam.EcsLite;
 using Scipts.EntityComponentSystem.Model;
 using Scipts.FiniteStateMachine.Component;
 using Scipts.FiniteStateMachine.Model;
-using Scipts.FiniteStateMachine.State;
-using Scipts.Utils;
-using UnityEngine;
 
 namespace Scipts.FiniteStateMachine.Job {
     public class StateMachineSystem : IEcsInitSystem, IEcsRunSystem {
@@ -53,6 +50,12 @@ namespace Scipts.FiniteStateMachine.Job {
                 case StateName.RUN:
                     entityManager.GetComponent<RunStateComponent>(entity).Exit();
                     break;
+                case StateName.DASH:
+                    entityManager.GetComponent<DashStateComponent>(entity).Exit();
+                    break;
+                case StateName.ATTACK:
+                    entityManager.GetComponent<AttackStateComponent>(entity).Exit();
+                    break;
             }
 
             // todo: enter new state
@@ -65,6 +68,12 @@ namespace Scipts.FiniteStateMachine.Job {
                     break;
                 case StateName.RUN:
                     entityManager.GetComponent<RunStateComponent>(entity).Enter(previous, false, entityManager);
+                    break;
+                case StateName.DASH:
+                    entityManager.GetComponent<DashStateComponent>(entity).Enter(previous, false, entityManager);
+                    break;
+                case StateName.ATTACK:
+                    entityManager.GetComponent<AttackStateComponent>(entity).Enter(previous, false, entityManager);
                     break;
             }
         }
@@ -82,6 +91,12 @@ namespace Scipts.FiniteStateMachine.Job {
                 case StateName.RUN:
                     entityManager.GetComponent<RunStateComponent>(entity).Exit();
                     break;
+                case StateName.DASH:
+                    entityManager.GetComponent<DashStateComponent>(entity).Exit();
+                    break;
+                case StateName.ATTACK:
+                    entityManager.GetComponent<AttackStateComponent>(entity).Exit();
+                    break;
             }
 
             // todo: enter new state
@@ -93,6 +108,12 @@ namespace Scipts.FiniteStateMachine.Job {
                     break;
                 case StateName.RUN:
                     entityManager.GetComponent<RunStateComponent>(entity).Enter(previous, true, entityManager);
+                    break;
+                case StateName.DASH:
+                    entityManager.GetComponent<DashStateComponent>(entity).Enter(previous, true, entityManager);
+                    break;
+                case StateName.ATTACK:
+                    entityManager.GetComponent<AttackStateComponent>(entity).Enter(previous, true, entityManager);
                     break;
             }
         }
@@ -109,6 +130,12 @@ namespace Scipts.FiniteStateMachine.Job {
                 case StateName.RUN:
                     entityManager.GetComponent<RunStateComponent>(entity).Exit();
                     break;
+                case StateName.DASH:
+                    entityManager.GetComponent<DashStateComponent>(entity).Exit();
+                    break;
+                case StateName.ATTACK:
+                    entityManager.GetComponent<AttackStateComponent>(entity).Exit();
+                    break;
             }
 
             // todo: enter new state
@@ -121,6 +148,12 @@ namespace Scipts.FiniteStateMachine.Job {
                     break;
                 case StateName.RUN:
                     entityManager.GetComponent<RunStateComponent>(entity).Enter(previous, false, entityManager);
+                    break;
+                case StateName.DASH:
+                    entityManager.GetComponent<DashStateComponent>(entity).Enter(previous, false, entityManager);
+                    break;
+                case StateName.ATTACK:
+                    entityManager.GetComponent<AttackStateComponent>(entity).Enter(previous, false, entityManager);
                     break;
             }
         }

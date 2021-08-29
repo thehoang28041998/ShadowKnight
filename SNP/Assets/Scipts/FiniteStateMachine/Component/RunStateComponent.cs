@@ -4,11 +4,11 @@ using Scipts.UnityAnimation.Component;
 using UnityEngine;
 
 namespace Scipts.FiniteStateMachine.Component {
-    [System.Serializable]
     public struct RunStateComponent : IComponent {
+        private readonly int entity;
+        
         public float elaped;
         public bool isRunning;
-        [SerializeField] private int entity;
 
         public RunStateComponent(int entity) {
             this.entity = entity;
@@ -17,7 +17,6 @@ namespace Scipts.FiniteStateMachine.Component {
         }
 
         public void Enter(StateName @from, bool isContinue, EntityManager entityManager) {
-            Debug.Log("run enter");
             this.elaped = 0.0f;
             this.isRunning = true;
 
@@ -25,7 +24,6 @@ namespace Scipts.FiniteStateMachine.Component {
         }
 
         public void Exit() {
-            Debug.Log("run exit");
             this.isRunning = false;
         }
     }
