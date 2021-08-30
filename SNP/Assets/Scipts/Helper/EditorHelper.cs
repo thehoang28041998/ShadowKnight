@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using UnityEditor;
 using UnityEngine;
@@ -34,7 +35,7 @@ namespace Scipts.Helper {
             }
         }
 
-    #region Group
+#region Group
 
         public class EditorGUILabelWidth : IDisposable {
             private float width;
@@ -113,7 +114,7 @@ namespace Scipts.Helper {
             public ScrollView(ScrollPosition sp) {
                 this.scrollPosition = sp;
                 scrollPosition.ScrollPos = EditorGUILayout.BeginScrollView(
-                        scrollPosition.ScrollPos, false, false
+                    scrollPosition.ScrollPos, false, false
                 );
             }
 
@@ -131,16 +132,36 @@ namespace Scipts.Helper {
             }
         }
 
-    #endregion
+#endregion
 
-    #region Label
+#region Label
 
-        public static void SetText(string text) {
-            GUILayout.Label(text);
+        public static GUIStyle Fold {
+            get => EditorStyles.foldout;
         }
 
-        public static void SetText(string text, Color color, int fontSize, bool bold = false) {
-            GUILayout.Label(text, LabelStyle(color, fontSize, bold));
+        public static GUIStyle Popup {
+            get => EditorStyles.popup;
+        }
+
+        public static Enum EnumPopup(string label, Enum current, params GUILayoutOption[] options) {
+            return EditorGUILayout.EnumPopup(label, current, options);
+        }
+
+        public static Enum EnumPopup(string label, Enum current, GUIStyle style) {
+            return EditorGUILayout.EnumPopup(label, current, style);
+        }
+
+        public static int Int(string label, int value) {
+            return EditorGUILayout.IntField(label, value);
+        }
+
+        public static float Float(string label, float value) {
+            return EditorGUILayout.FloatField(label, value);
+        }
+
+        public static string Text(string label, string value) {
+            return EditorGUILayout.TextField(label, value);
         }
 
         public static GUIStyle LabelStyle(Color color, int fontSize, bool bold = false) {
@@ -160,7 +181,8 @@ namespace Scipts.Helper {
             return style;
         }
 
-    #endregion
+#endregion
 
     }
 }
+#endif
