@@ -66,18 +66,10 @@ namespace Scipts.EntityComponentSystem.Example {
 
             // todo: add finite state machine component - state component
             // state component
-            ref var idleState = ref manager.AddComponent<IdleStateComponent>(entity);
-            idleState = new IdleStateComponent(entity);
-            idleState.Enter(StateName.UNDEFINE, false, manager);
-          
-            ref var runState = ref manager.AddComponent<RunStateComponent>(entity);
-            runState = new RunStateComponent(entity);
-
-            ref var dashState = ref manager.AddComponent<DashStateComponent>(entity);
-            dashState = new DashStateComponent(entity);
-
-            ref var attackState = ref manager.AddComponent<AttackStateComponent>(entity);
-            attackState = new AttackStateComponent(entity);
+            manager.AddComponent<IdleStateComponent>(entity);
+            manager.AddComponent<RunStateComponent>(entity);
+            manager.AddComponent<DashStateComponent>(entity);
+            manager.AddComponent<AttackStateComponent>(entity).combo = 1;
             
             // state machine component
             manager.AddComponent<StateMachineComponent>(entity) = new StateMachineComponent(
