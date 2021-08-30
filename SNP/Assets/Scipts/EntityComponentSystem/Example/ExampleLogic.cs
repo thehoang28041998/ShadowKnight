@@ -66,7 +66,7 @@ namespace Scipts.EntityComponentSystem.Example {
 
             // todo: add finite state machine component - state component
             // state component
-            manager.AddComponent<IdleStateComponent>(entity);
+            manager.AddComponent<IdleStateComponent>(entity).isRunning = true;
             manager.AddComponent<RunStateComponent>(entity);
             manager.AddComponent<DashStateComponent>(entity);
             manager.AddComponent<AttackStateComponent>(entity).combo = 1;
