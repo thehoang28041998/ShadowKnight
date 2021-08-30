@@ -1,8 +1,6 @@
 using Leopotam.EcsLite;
 using Scipts.EntityComponentSystem.Model;
 using Scipts.Movement.Component;
-using Scipts.Skill.Component;
-using Scipts.Skill.Model;
 using Scipts.UserInput.Component;
 using Scipts.UserInput.Model;
 using UnityEngine;
@@ -35,7 +33,6 @@ namespace Scipts.UserInput.Job {
 
                     if (Input.GetKey(KeyCode.J)) {
                         inputComponent.isAttack = true;
-                        entityManager.GetComponent<SkillComponent>(entity).queueSkillId = new SkillId(1, SkillCategory.Attack, 1);
                     }
 
                     if (inputComponent.direction != Vector3.zero) {

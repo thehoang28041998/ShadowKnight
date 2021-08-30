@@ -7,10 +7,6 @@ using Scipts.FiniteStateMachine.Job;
 using Scipts.FiniteStateMachine.Model;
 using Scipts.Movement.Component;
 using Scipts.Movement.Job;
-using Scipts.Skill.Component;
-using Scipts.Skill.Config.Model;
-using Scipts.Skill.Job;
-using Scipts.Skill.Model;
 using Scipts.UnityAnimation.Component;
 using Scipts.UserInput.Component;
 using Scipts.UserInput.Job;
@@ -41,7 +37,6 @@ namespace Scipts.EntityComponentSystem.Example {
                 .Add(new UserInputSystem()) // received input & (test: add request)
                 .Add(new StateMachineSystem(systems))
                 .Add(new RequestSystem(systems))
-                .Add(new SkillSystem())  // 
                 .Add(new TranslateSystem()) // translate with velocity component
 #if UNITY_EDITOR
                 .Add(new EcsWorldDebugSystem())
@@ -64,14 +59,10 @@ namespace Scipts.EntityComponentSystem.Example {
             manager.AddComponent<DashComponent>(entity) = new DashComponent();
 
             // todo: add animation component
-            object factoryParameter = DictionarySkillEquipped();
-            manager.AddComponent<SkillFactoryComponent>(entity) =
-                new SkillFactoryComponent(factoryParameter as Dictionary<SkillId, SkillFrameConfig>);
             manager.AddComponent<AnimationComponent>(entity) =
                 new AnimationComponent(player.GetComponentInChildren<Animation>());
 
             // todo: add skill component & reference
-            manager.AddComponent<SkillComponent>(entity) = new SkillComponent(manager, entity);
 
             // todo: add finite state machine component - state component
             // state component
@@ -97,13 +88,6 @@ namespace Scipts.EntityComponentSystem.Example {
                 },
                 FiniteStateMachineParameter()
             );
-        }
-
-        private object DictionarySkillEquipped() {
-            Dictionary<SkillId, SkillFrameConfig> dictionary = new Dictionary<SkillId, SkillFrameConfig>();
-            dictionary[new SkillId(1, SkillCategory.Attack, 1)] =
-                Resources.Load<SkillFrameConfig>("Character/2/Configs/SkillFrameConfig");
-            return dictionary;
         }
 
         private Dictionary<StateName, StateName[]> FiniteStateMachineParameter() {
