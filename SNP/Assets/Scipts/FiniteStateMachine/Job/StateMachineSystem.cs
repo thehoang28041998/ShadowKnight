@@ -3,6 +3,9 @@ using Leopotam.EcsLite;
 using Scipts.EntityComponentSystem.Model;
 using Scipts.FiniteStateMachine.Component;
 using Scipts.FiniteStateMachine.Model;
+using Scipts.Movement.Component;
+using Scipts.Movement.Request;
+using Scipts.UnityAnimation.Component;
 
 namespace Scipts.FiniteStateMachine.Job {
     public struct StateMachineSystem : IEcsInitSystem, IEcsRunSystem {
@@ -51,39 +54,13 @@ namespace Scipts.FiniteStateMachine.Job {
                 throw new NotSupportedException("There is no current state to replace (StateStack is empty)");
 
             // todo: exit current state
-            switch (component.current) {
-                case StateName.IDLE:
-                    entityManager.GetComponent<IdleStateComponent>(entity).Exit();
-                    break;
-                case StateName.RUN:
-                    entityManager.GetComponent<RunStateComponent>(entity).Exit();
-                    break;
-                case StateName.DASH:
-                    entityManager.GetComponent<DashStateComponent>(entity).Exit();
-                    break;
-                case StateName.ATTACK:
-                    entityManager.GetComponent<AttackStateComponent>(entity).Exit();
-                    break;
-            }
+            Exit(component.current, entity);
 
             // todo: enter new state
             StateName previous = component.stack.Pop();
             component.current = name;
             component.stack.Push(name);
-            switch (name) {
-                case StateName.IDLE:
-                    entityManager.GetComponent<IdleStateComponent>(entity).Enter(previous, false, entityManager);
-                    break;
-                case StateName.RUN:
-                    entityManager.GetComponent<RunStateComponent>(entity).Enter(previous, false, entityManager);
-                    break;
-                case StateName.DASH:
-                    entityManager.GetComponent<DashStateComponent>(entity).Enter(previous, false, entityManager);
-                    break;
-                case StateName.ATTACK:
-                    entityManager.GetComponent<AttackStateComponent>(entity).Enter(previous, false, entityManager);
-                    break;
-            }
+            Enter(component.current, previous, false, entity);
         }
 
         private void GotoBackPrevious(ref StateMachineComponent component, EntityManager entityManager,
@@ -92,38 +69,12 @@ namespace Scipts.FiniteStateMachine.Job {
                 throw new NotSupportedException("There is no current state to replace (StateStack is empty)");
 
             // todo: exit current state
-            switch (component.current) {
-                case StateName.IDLE:
-                    entityManager.GetComponent<IdleStateComponent>(entity).Exit();
-                    break;
-                case StateName.RUN:
-                    entityManager.GetComponent<RunStateComponent>(entity).Exit();
-                    break;
-                case StateName.DASH:
-                    entityManager.GetComponent<DashStateComponent>(entity).Exit();
-                    break;
-                case StateName.ATTACK:
-                    entityManager.GetComponent<AttackStateComponent>(entity).Exit();
-                    break;
-            }
+            Exit(component.current, entity);
 
             // todo: enter new state
             StateName previous = component.stack.Pop();
             component.current = component.stack.Peek();
-            switch (component.current) {
-                case StateName.IDLE:
-                    entityManager.GetComponent<IdleStateComponent>(entity).Enter(previous, true, entityManager);
-                    break;
-                case StateName.RUN:
-                    entityManager.GetComponent<RunStateComponent>(entity).Enter(previous, true, entityManager);
-                    break;
-                case StateName.DASH:
-                    entityManager.GetComponent<DashStateComponent>(entity).Enter(previous, true, entityManager);
-                    break;
-                case StateName.ATTACK:
-                    entityManager.GetComponent<AttackStateComponent>(entity).Enter(previous, true, entityManager);
-                    break;
-            }
+            Enter(component.current, previous, true, entity);
         }
 
         private void ChangeWithBackup(ref StateMachineComponent component, StateName name, EntityManager entityManager,
@@ -131,39 +82,95 @@ namespace Scipts.FiniteStateMachine.Job {
             if (component.current == name) return;
             
             // todo: exit current state
-            switch (component.current) {
-                case StateName.IDLE:
-                    entityManager.GetComponent<IdleStateComponent>(entity).Exit();
-                    break;
-                case StateName.RUN:
-                    entityManager.GetComponent<RunStateComponent>(entity).Exit();
-                    break;
-                case StateName.DASH:
-                    entityManager.GetComponent<DashStateComponent>(entity).Exit();
-                    break;
-                case StateName.ATTACK:
-                    entityManager.GetComponent<AttackStateComponent>(entity).Exit();
-                    break;
-            }
+            Exit(component.current, entity);
 
             // todo: enter new state
             StateName previous = component.stack.Peek();
             component.current = name;
             component.stack.Push(name);
-            switch (name) {
+            Enter(name, previous, false, entity);
+        }
+
+        private void Exit(StateName current, int entity) {
+            switch (current) {
                 case StateName.IDLE:
-                    entityManager.GetComponent<IdleStateComponent>(entity).Enter(previous, false, entityManager);
+                    ref var idle = ref entityManager.GetComponent<IdleStateComponent>(entity);
+                    idle.isRunning = false;
                     break;
                 case StateName.RUN:
-                    entityManager.GetComponent<RunStateComponent>(entity).Enter(previous, false, entityManager);
+                    ref var run = ref entityManager.GetComponent<RunStateComponent>(entity);
+                    run.isRunning = false;
                     break;
                 case StateName.DASH:
-                    entityManager.GetComponent<DashStateComponent>(entity).Enter(previous, false, entityManager);
+                    ref var dash = ref entityManager.GetComponent<DashStateComponent>(entity);
+                    dash.isRunning = false;
                     break;
                 case StateName.ATTACK:
-                    entityManager.GetComponent<AttackStateComponent>(entity).Enter(previous, false, entityManager);
+                    ref var attack = ref entityManager.GetComponent<AttackStateComponent>(entity);
+                    attack.isRunning = false;
                     break;
             }
+        }
+
+        private void Enter(StateName current, StateName previous, bool isContinue, int entity) {
+            switch (current) {
+                case StateName.IDLE:
+                    ref var idle = ref entityManager.GetComponent<IdleStateComponent>(entity);
+                    idle.isRunning = true;
+                    idle.elapsed = 0.0f; 
+                    // todo: for test :- play animation
+                {
+                    entityManager.GetComponent<AnimationComponent>(entity).PlayIdle();
+                }
+                    break;
+                case StateName.RUN:
+                    ref var run = ref entityManager.GetComponent<RunStateComponent>(entity);
+                    run.isRunning = true;
+                    run.elaped = 0.0f;
+                    // todo: for test :- play animation
+                {
+                    entityManager.GetComponent<AnimationComponent>(entity).PlayRun();
+                }
+                    break;
+                case StateName.DASH:
+                    ref var dash = ref entityManager.GetComponent<DashStateComponent>(entity);
+                    // todo: for test :- add request in here
+                {
+                    var velocity = entityManager.GetComponent<VelocityComponent>(entity).saveVelocity;
+                    entityManager.GetComponent<RequestComponent>(entity).AddRequest(new DashRequest(10, 0.3f, velocity.normalized));
+                    entityManager.GetComponent<AnimationComponent>(entity).PlayDash();
+                }
+                    dash.isRunning = true;
+                    break;
+                case StateName.ATTACK:
+                    ref var attack = ref entityManager.GetComponent<AttackStateComponent>(entity);
+                    if (previous == StateName.ATTACK) {
+                        attack.combo++;
+                        if (attack.combo > AttackStateComponent.MAX_COMBO) attack.combo = 1;
+                    }
+                    else {
+                        attack.combo = 1;
+                    }
+                    // todo: for test :- play animation
+                {
+                    entityManager.GetComponent<AnimationComponent>(entity).PlayAttack(attack.combo, AttackStateComponent.SCALE);
+                }
+                    attack.duration = GetAttackDuration(attack.combo) / AttackStateComponent.SCALE;
+                    attack.elapsed = 0.0f;
+                    attack.saveInputAttack = false;
+                    attack.isRunning = true;
+                    break;
+            }
+        }
+        
+        private float GetAttackDuration(int idx) {
+            switch (idx) {
+                case 1: return 0.43f;
+                case 2: return 0.4f;
+                case 3: return 0.66f;
+            }
+
+            return 0.0f;
         }
     }
 }

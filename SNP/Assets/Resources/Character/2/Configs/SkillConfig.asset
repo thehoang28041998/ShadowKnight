@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2102b91113f4ef583ee544e467f1414, type: 3}
+  m_Name: SkillConfig
+  m_EditorClassIdentifier: 
+  skillClassName: DefaultSkill
+  totalFrame: 1
+  channelingFrame: 1
+  animationSpeed: 1
+  animationName: 
+  extras: []
+  events:
+  - '['
+  - '  {'
+  - '    "BaseEvents": ['
+  - '      {'
+  - '        "fold": true,'
+  - '        "Enable": true,'
+  - '        "Trigger": {'
+  - '          "$type": "Scipts.Skill.Config.Trigger.TimelineTrigger, Assembly-CSharp",'
+  - '          "triggerChanged": false,'
+  - '          "frame": 0,'
+  - '          "scale": 1.0,'
+  - '          "TriggerType": 0'
+  - '        },'
+  - '        "EventInfo": {'
+  - '          "$type": "Scipts.Skill.Config.EventInfo.AnimationEventInfo, Assembly-CSharp",'
+  - '          "editorChanged": false,'
+  - '          "animationName": "hoang nguyen",'
+  - '          "animationSpeed": 1.0,'
+  - '          "crossFade": 0.0,'
+  - '          "method": 0,'
+  - '          "EventType": 1'
+  - '        }'
+  - '      }'
+  - '    ]'
+  - '  }'
+  - ']'

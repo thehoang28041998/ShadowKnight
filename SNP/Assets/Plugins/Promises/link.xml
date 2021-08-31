@@ -1,5 +1,0 @@
-﻿<linker>
-  <assembly fullname="Promises">
-    <type fullname="AOFL.Promises.*" preserve="all"/>
-  </assembly>
-</linker>
