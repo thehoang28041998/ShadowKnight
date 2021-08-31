@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Scipts.Utils {
+namespace Scipts.Helper {
     public class JsonHelper {
         public string SerializeObjectToString(object o) {
             string json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings {

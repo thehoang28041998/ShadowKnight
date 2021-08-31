@@ -2,8 +2,8 @@ using Leopotam.EcsLite.Threads.Unity;
 using Scipts.EntityComponentSystem.Model;
 using Scipts.FiniteStateMachine.Component;
 using Scipts.FiniteStateMachine.Model;
+using Scipts.Helper;
 using Scipts.UserInput.Component;
-using Scipts.Utils;
 using Unity.Collections;
 
 namespace Scipts.FiniteStateMachine.Job {
@@ -25,7 +25,7 @@ namespace Scipts.FiniteStateMachine.Job {
             var attackState = pool1[pool1Idx];
 
             if (!attackState.isRunning) return;
-            attackState.elapsed += GameLoop.TIME_DELTA;
+            attackState.elapsed += FrameHelper.TIME_DELTA;
 
             var entityManager = EntityManager.Instance;
             ref var input = ref entityManager.GetComponent<InputComponent>(entity);

@@ -2,10 +2,10 @@ using Scipts.FiniteStateMachine.Component;
 using Leopotam.EcsLite.Threads.Unity;
 using Scipts.EntityComponentSystem.Model;
 using Scipts.FiniteStateMachine.Model;
+using Scipts.Helper;
 using Scipts.Movement.Component;
 using Scipts.Movement.Request;
 using Scipts.UserInput.Component;
-using Scipts.Utils;
 using Unity.Collections;
 
 namespace Scipts.FiniteStateMachine.Job {
@@ -25,7 +25,7 @@ namespace Scipts.FiniteStateMachine.Job {
             int pool1Idx = indices1[entity];
             var runState = pool1[pool1Idx];
             if (runState.isRunning) {
-                runState.elaped += GameLoop.TIME_DELTA;
+                runState.elaped += FrameHelper.TIME_DELTA;
 
                 var entityManager = EntityManager.Instance;
                 var input = entityManager.GetComponent<InputComponent>(entity);

@@ -3,7 +3,6 @@ using Scipts.EntityComponentSystem.Model;
 using Scipts.FiniteStateMachine.Component;
 using Scipts.FiniteStateMachine.Model;
 using Scipts.Movement.Component;
-using Scipts.UserInput.Component;
 using Unity.Collections;
 
 namespace Scipts.FiniteStateMachine.Job {

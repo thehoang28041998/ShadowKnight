@@ -1,5 +1,6 @@
 using System;
 using Leopotam.EcsLite.Threads.Unity;
+using Scipts.Helper;
 using Scipts.Movement.Component;
 using Scipts.Utils;
 using Unity.Collections;
@@ -32,7 +33,7 @@ namespace Scipts.Movement.Job {
             DashComponent dash = pool2[pool2Idx];
 
             if (!dash.IsFinish) {
-                dash.elapsed += GameLoop.TIME_DELTA;
+                dash.elapsed += FrameHelper.TIME_DELTA;
                 
                 float progress = dash.elapsed / dash.dashDuration;
                 progress = Math.Min(progress, 1.0f);

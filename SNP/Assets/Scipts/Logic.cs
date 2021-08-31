@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.UnityEditor;
@@ -22,6 +23,7 @@ namespace Scipts {
         private EntityManager manager;
 
         private void Awake() {
+            Application.targetFrameRate = 60;
             // skillFrameConfig
             // todo: using object (class) for config because it has address
             // todo: load config then push data to struct (save data in cache)

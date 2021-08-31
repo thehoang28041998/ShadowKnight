@@ -1,4 +1,5 @@
 using Leopotam.EcsLite.Threads.Unity;
+using Scipts.Helper;
 using Scipts.Movement.Component;
 using Scipts.Utils;
 using Unity.Collections;
@@ -32,7 +33,7 @@ namespace Scipts.Movement.Job {
 
             if (!run.IsFinish) {
                 run.finish = true;
-                velocityComponent.velocity += GameLoop.TIME_DELTA * speed * run.direction;
+                velocityComponent.velocity += FrameHelper.TIME_DELTA * speed * run.direction;
             }
 
             pool1[pool1Idx] = velocityComponent;
@@ -40,7 +41,7 @@ namespace Scipts.Movement.Job {
         }
 
         private float speed {
-            get => 5.0f;
+            get => 7.5f;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Scipts.UserInput.Job {
 
                 if (inputComponent.inputFrom == InputFrom.User) {
                     inputComponent.direction =
-                        new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+                            new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
                     if (Input.GetKey(KeyCode.L)) {
                         inputComponent.isDash = true;
                     }
