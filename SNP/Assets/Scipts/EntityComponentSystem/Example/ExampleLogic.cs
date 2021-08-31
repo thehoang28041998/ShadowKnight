@@ -32,17 +32,14 @@ namespace Scipts.EntityComponentSystem.Example {
             manager = new EntityManager(world);
 
             systems = new EcsSystems(world, manager);
-            systems
-                // todo: input
-                .Add(new UserInputSystem()) // received input & (test: add request)
-                .Add(new StateMachineSystem(systems))
-                .Add(new RequestSystem(systems))
-                .Add(new TranslateSystem()) // translate with velocity component
+            systems.Add(new UserInputSystem()) // received input & (test: add request)
+                   .Add(new StateMachineSystem(systems))
+                   .Add(new RequestSystem(systems))
+                   .Add(new TranslateSystem()) // translate with velocity component
 #if UNITY_EDITOR
-                .Add(new EcsWorldDebugSystem())
+                   .Add(new EcsWorldDebugSystem())
 #endif
-                .Init();
-
+                   .Init();
             InitEntity();
         }
 
@@ -60,7 +57,7 @@ namespace Scipts.EntityComponentSystem.Example {
 
             // todo: add animation component
             manager.AddComponent<AnimationComponent>(entity) =
-                new AnimationComponent(player.GetComponentInChildren<Animation>());
+                    new AnimationComponent(player.GetComponentInChildren<Animation>());
 
             // todo: add skill component & reference
 
@@ -70,7 +67,7 @@ namespace Scipts.EntityComponentSystem.Example {
             manager.AddComponent<RunStateComponent>(entity);
             manager.AddComponent<DashStateComponent>(entity);
             manager.AddComponent<AttackStateComponent>(entity).combo = 1;
-            
+
             // state machine component
             manager.AddComponent<StateMachineComponent>(entity) = new StateMachineComponent(
                 StateName.IDLE,
