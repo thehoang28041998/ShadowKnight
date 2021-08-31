@@ -13,8 +13,8 @@ using Scipts.UserInput.Job;
 using Scipts.UserInput.Model;
 using UnityEngine;
 
-namespace Scipts.EntityComponentSystem.Example {
-    public class ExampleLogic : MonoBehaviour {
+namespace Scipts {
+    public class Logic : MonoBehaviour {
         public CharacterController player;
 
         private EcsWorld world;
