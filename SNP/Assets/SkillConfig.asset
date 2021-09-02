@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eaaa23d0fcf7334a85009f434a9ff00, type: 3}
+  m_Name: SkillConfig
+  m_EditorClassIdentifier: 
+  skillClassName: DefaultSkill
+  totalFrame: 2
+  channelingFrame: 3
+  animationSpeed: 1
+  animationName: run
+  extras: []
+  events:
+  - '['
+  - '  {'
+  - '    "events": ['
+  - '      {'
+  - '        "enable": true,'
+  - '        "fold": true,'
+  - '        "trigger": {'
+  - '          "$type": "Scipts.Skills.Core.Event.Trigger.TimelineTrigger, Assembly-CSharp",'
+  - '          "frame": 100,'
+  - '          "scale": 1.0,'
+  - '          "TriggerType": 0'
+  - '        },'
+  - '        "eventInfo": {'
+  - '          "$type": "Scipts.Skills.Combat.Event.Info.AnimationEventInfo, Assembly-CSharp",'
+  - '          "editorChanged": false,'
+  - '          "animationName": "Hoang dep trai",'
+  - '          "animationSpeed": 1.0,'
+  - '          "crossFade": 0.0,'
+  - '          "method": 0,'
+  - '          "EventType": 1'
+  - '        }'
+  - '      }'
+  - '    ]'
+  - '  }'
+  - ']'
+  eventCollection:
+  - events:
+    - enable: 1
+      fold: 1
