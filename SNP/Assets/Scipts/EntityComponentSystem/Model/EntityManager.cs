@@ -35,5 +35,9 @@ namespace Scipts.EntityComponentSystem.Model {
             EcsPool<T> pool = world.GetPool<T>();
             pool.Del(entity);
         }
+
+        public EcsWorld World {
+            get => world;
+        }
     }
 }

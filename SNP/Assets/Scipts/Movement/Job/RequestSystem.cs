@@ -7,34 +7,29 @@ using Scipts.Movement.Model;
 using Scipts.Movement.Request;
 
 namespace Scipts.Movement.Job {
-    public struct RequestSystem : IEcsInitSystem, IEcsRunSystem {
-        private EntityManager entityManager;
-
-        public RequestSystem(EcsSystems systems) {
-            this.entityManager = null;
-            systems // allocation request
-                .Add(new RunJobSystem()) // handle run job
-                .Add(new DashJobSystem()); // handle dash job
-        }
-
+    public class RequestSystem : IEcsInitSystem, IEcsRunSystem {
+        private EcsFilter filter;
+        private EcsPool<RequestComponent> pool1;
+        private EcsPool<DashComponent> pool2;
+        private EcsPool<RunComponent> pool3;
 
         public void Init(EcsSystems systems) {
-            entityManager = systems.GetShared<EntityManager>();
+            EcsWorld world = systems.GetWorld ();
+            filter = world.Filter<RequestComponent>().Inc<RunComponent>().Inc<DashComponent>().End();
+            pool1 = world.GetPool<RequestComponent>();
+            pool2 = world.GetPool<DashComponent>();
+            pool3 = world.GetPool<RunComponent>();
         }
 
         public void Run(EcsSystems systems) {
-            EcsWorld world = systems.GetWorld();
-            var filter = world.Filter<RequestComponent>().Inc<DashComponent>().End();
-            var pool = world.GetPool<RequestComponent>();
-
             foreach (var entity in filter) {
-                ref var requestComponent = ref pool.Get(entity);
+                ref var request = ref pool1.Get(entity);
 
                 // todo: filter : abort request with low priority
-                AbortRequest(ref requestComponent, entity);
+                AbortRequest(ref request, entity);
 
                 // todo: invoke request after filter
-                InvokeRequest(ref requestComponent, entity);
+                InvokeRequest(ref request, entity);
             }
         }
 
@@ -50,17 +45,17 @@ namespace Scipts.Movement.Job {
                 //Debug.Log($"Allow: {r.RequestType}");
                 switch (r.RequestType) {
                     case RequestType.Dash:
-                        ref var dashRequestComponent = ref entityManager.GetComponent<DashComponent>(entity);
-                        if (dashRequestComponent.IsFinish) {
+                        ref var dash = ref pool2.Get(entity);
+                        if (dash.IsFinish) {
                             var dashRequest = (DashRequest) r;
-                            dashRequestComponent = new DashComponent(dashRequest.dashDistance, dashRequest.dashDuration,
+                            dash = new DashComponent(dashRequest.dashDistance, dashRequest.dashDuration,
                                 dashRequest.direction);
                             //Debug.Log("Dash success");
                         }
 
                         break;
                     case RequestType.Run:
-                        ref var run = ref entityManager.GetComponent<RunComponent>(entity);
+                        ref var run = ref pool3.Get(entity);
                         if (run.IsFinish) {
                             var runRequest = (RunRequest) r;
                             run = new RunComponent(runRequest.direction);
@@ -108,11 +103,11 @@ namespace Scipts.Movement.Job {
                             //Debug.Log($"Abort: {after.RequestType}");
                             switch (after.RequestType) {
                                 case RequestType.Dash:
-                                    ref var dash = ref entityManager.GetComponent<DashComponent>(entity);
+                                    ref var dash = ref pool2.Get(entity);
                                     dash.Abort();
                                     break;
                                 case RequestType.Run:
-                                    ref var run = ref entityManager.GetComponent<RunComponent>(entity);
+                                    ref var run = ref pool3.Get(entity);
                                     run.Abort();
                                     break;
 
