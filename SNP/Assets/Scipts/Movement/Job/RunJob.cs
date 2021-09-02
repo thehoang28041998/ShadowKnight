@@ -1,7 +1,6 @@
 using Leopotam.EcsLite.Threads.Unity;
 using Scipts.Helper;
 using Scipts.Movement.Component;
-using Scipts.Utils;
 using Unity.Collections;
 
 namespace Scipts.Movement.Job {

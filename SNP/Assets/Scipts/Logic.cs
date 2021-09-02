@@ -22,6 +22,8 @@ namespace Scipts {
         private EcsSystems systems;
         private EntityManager manager;
 
+        private UserInputLogic userInputLogic;
+
         private void Awake() {
             Application.targetFrameRate = 60;
             // skillFrameConfig
@@ -33,19 +35,28 @@ namespace Scipts {
             world = new EcsWorld();
             manager = new EntityManager(world);
 
-            systems = new EcsSystems(world, manager);
-            systems.Add(new UserInputSystem()) // received input & (test: add request)
-                   .Add(new StateMachineSystem(systems))
-                   .Add(new RequestSystem(systems))
+            systems = new EcsSystems(world);
+            systems.Add(new StateMachineSystem())
+                   .Add(new IdleStateJobSystem())
+                   .Add(new RunStateJobSystem())
+                   .Add(new DashStateJobSystem())
+                   .Add(new AttackStateJobSystem())
+                   //
+                   .Add(new RequestSystem())
+                   .Add(new RunJobSystem())
+                   .Add(new DashJobSystem())
+                   //
                    .Add(new TranslateSystem()) // translate with velocity component
 #if UNITY_EDITOR
                    .Add(new EcsWorldDebugSystem())
 #endif
                    .Init();
-            InitEntity();
+           
+            int entity = InitEntity();
+            userInputLogic = new UserInputLogic(manager, entity);
         }
 
-        private void InitEntity() {
+        private int InitEntity() {
             int entity = world.NewEntity();
             //todo: add input component
             manager.AddComponent<InputComponent>(entity) = new InputComponent(InputFrom.User);
@@ -79,6 +90,8 @@ namespace Scipts {
                 },
                 FiniteStateMachineParameter()
             );
+
+            return entity;
         }
 
         private Dictionary<StateName, StateName[]> FiniteStateMachineParameter() {
@@ -89,6 +102,10 @@ namespace Scipts {
             transition.Add(StateName.ATTACK, new[] {StateName.IDLE, StateName.RUN, StateName.ATTACK});
             
             return transition;
+        }
+
+        private void Update() {
+            userInputLogic.Run();
         }
 
         private void FixedUpdate() {
