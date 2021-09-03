@@ -1,4 +1,3 @@
-using Scipts.EntityComponentSystem.Model;
 using Scipts.FiniteStateMachine.Model;
 using Scipts.UnityAnimation.Component;
 using UnityEngine;

@@ -2,12 +2,16 @@ using System;
 using System.Collections.Generic;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.UnityEditor;
+using RSG;
+using Scipts.EntityComponentSystem;
 using Scipts.EntityComponentSystem.Model;
 using Scipts.FiniteStateMachine.Component;
 using Scipts.FiniteStateMachine.Job;
 using Scipts.FiniteStateMachine.Model;
 using Scipts.Movement.Component;
 using Scipts.Movement.Job;
+using Scipts.Skills.Component;
+using Scipts.Skills.Model;
 using Scipts.UnityAnimation.Component;
 using Scipts.UserInput.Component;
 using Scipts.UserInput.Job;
@@ -23,7 +27,8 @@ namespace Scipts {
         private EntityManager manager;
 
         private UserInputLogic userInputLogic;
-
+        private bool started;
+        
         private void Awake() {
             Application.targetFrameRate = 60;
             // skillFrameConfig
@@ -53,7 +58,25 @@ namespace Scipts {
                    .Init();
            
             int entity = InitEntity();
-            userInputLogic = new UserInputLogic(manager, entity);
+            FinishInit(entity);
+        }
+
+        private void FinishInit(int entity) {
+            object[] components = null;
+            List<IPromise> promises = new List<IPromise>();
+            world.GetComponents(entity, ref components);
+            foreach (var component in components) {
+                if (component is IPromiseComponent promiseComponent) {
+                    promises.Add(promiseComponent.PromiseInit);
+                }
+            }
+
+            Promise.All(promises)
+                   .Then(delegate {
+                       userInputLogic = new UserInputLogic(manager, entity);
+                       started = true;
+                       Debug.Log("Finish init entity : " + entity);
+                   }).Catch(Debug.LogError);
         }
 
         private int InitEntity() {
@@ -73,6 +96,10 @@ namespace Scipts {
                     new AnimationComponent(player.GetComponentInChildren<Animation>());
 
             // todo: add skill component & reference
+            manager.AddComponent<SkillFactoryComponent>(entity)
+                    = new SkillFactoryComponent(2, new List<SkillId> {
+                        new SkillId(2, SkillCategory.Run, 1)
+                    });
 
             // todo: add finite state machine component - state component
             // state component
@@ -105,10 +132,14 @@ namespace Scipts {
         }
 
         private void Update() {
+            if (!started) return;
+            
             userInputLogic.Run();
         }
 
         private void FixedUpdate() {
+            if (!started) return;
+            
             systems?.Run();
         }
 

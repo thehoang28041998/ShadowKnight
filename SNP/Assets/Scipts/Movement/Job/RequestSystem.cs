@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Leopotam.EcsLite;
-using Scipts.EntityComponentSystem.Model;
 using Scipts.Movement.Component;
 using Scipts.Movement.Model;
 using Scipts.Movement.Request;

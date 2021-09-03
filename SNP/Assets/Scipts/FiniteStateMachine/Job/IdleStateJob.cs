@@ -1,5 +1,5 @@
 using Leopotam.EcsLite.Threads.Unity;
-using Scipts.EntityComponentSystem.Model;
+using Scipts.EntityComponentSystem;
 using Scipts.FiniteStateMachine.Component;
 using Scipts.FiniteStateMachine.Model;
 using Scipts.Helper;
