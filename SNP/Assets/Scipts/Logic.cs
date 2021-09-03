@@ -99,10 +99,10 @@ namespace Scipts {
                     new AnimationComponent(player.GetComponentInChildren<Animation>());
 
             // todo: add skill component & reference
-            manager.AddComponent<SkillFactoryComponent>(entity)
-                    = new SkillFactoryComponent(2, new List<SkillId> {
-                        new SkillId(2, SkillCategory.Run, 1)
-                    });
+            List<SkillId> skillIds = new List<SkillId> {
+                new SkillId(2, SkillCategory.Run, 1)
+            };
+            manager.AddComponent<SkillFactoryComponent>(entity) = new SkillFactoryComponent(entity, 2, skillIds);
 
             // todo: add finite state machine component - state component
             // state component
