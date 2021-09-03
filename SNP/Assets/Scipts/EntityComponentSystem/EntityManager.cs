@@ -25,6 +25,10 @@ namespace Scipts.EntityComponentSystem {
             return ref _component;
         }
 
+        public int GetComponents(int entity, ref object[] components) {
+            return world.GetComponents(entity, ref components);
+        }
+        
         public ref T GetComponent<T>(int entity) where T : struct, IComponent {
             EcsPool<T> pool = world.GetPool<T>();
             ref T component = ref pool.Get(entity);
@@ -36,8 +40,22 @@ namespace Scipts.EntityComponentSystem {
             pool.Del(entity);
         }
 
+        public int NewEntity() {
+            // todo: listen create entity
+            return world.NewEntity();
+        }
+
+        public void DelEntity(int entity) {
+            // todo: listen destroy entity
+            world.DelEntity(entity);
+        }
+
         public EcsWorld World {
             get => world;
+        }
+
+        public void Destroy() {
+            world.Destroy();
         }
     }
 }

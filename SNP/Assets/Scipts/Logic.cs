@@ -4,6 +4,8 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.UnityEditor;
 using RSG;
 using Scipts.EntityComponentSystem;
+using Scipts.EntityComponentSystem.Component;
+using Scipts.EntityComponentSystem.Job;
 using Scipts.EntityComponentSystem.Model;
 using Scipts.FiniteStateMachine.Component;
 using Scipts.FiniteStateMachine.Job;
@@ -22,7 +24,6 @@ namespace Scipts {
     public class Logic : MonoBehaviour {
         public CharacterController player;
 
-        private EcsWorld world;
         private EcsSystems systems;
         private EntityManager manager;
 
@@ -37,7 +38,7 @@ namespace Scipts {
         }
 
         private void Start() {
-            world = new EcsWorld();
+            EcsWorld world = new EcsWorld();
             manager = new EntityManager(world);
 
             systems = new EcsSystems(world);
@@ -55,6 +56,7 @@ namespace Scipts {
 #if UNITY_EDITOR
                    .Add(new EcsWorldDebugSystem())
 #endif
+                   .Add(new CleanupSystem())
                    .Init();
            
             int entity = InitEntity();
@@ -64,13 +66,14 @@ namespace Scipts {
         private void FinishInit(int entity) {
             object[] components = null;
             List<IPromise> promises = new List<IPromise>();
-            world.GetComponents(entity, ref components);
+            manager.GetComponents(entity, ref components);
             foreach (var component in components) {
                 if (component is IPromiseComponent promiseComponent) {
                     promises.Add(promiseComponent.PromiseInit);
                 }
             }
 
+            Debug.Log(promises.Count);
             Promise.All(promises)
                    .Then(delegate {
                        userInputLogic = new UserInputLogic(manager, entity);
@@ -80,7 +83,7 @@ namespace Scipts {
         }
 
         private int InitEntity() {
-            int entity = world.NewEntity();
+            int entity = manager.NewEntity();
             //todo: add input component
             manager.AddComponent<InputComponent>(entity) = new InputComponent(InputFrom.User);
 
@@ -117,6 +120,9 @@ namespace Scipts {
                 },
                 FiniteStateMachineParameter()
             );
+            
+            // todo: add cleanup
+            manager.AddComponent<CleanupComponent>(entity) = new CleanupComponent();
 
             return entity;
         }
@@ -146,7 +152,7 @@ namespace Scipts {
         private void OnDestroy() {
             if (systems != null) {
                 systems.Destroy();
-                world.Destroy();
+                manager.Destroy();
                 systems = null;
             }
         }
