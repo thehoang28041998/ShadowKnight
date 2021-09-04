@@ -1,4 +1,3 @@
-using Scipts.EntityComponentSystem.Model;
 using Scipts.FiniteStateMachine.Model;
 using Scipts.Movement.Component;
 using Scipts.Movement.Request;

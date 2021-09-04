@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using Scipts.UnityAnimation.Model;
 using UnityEngine;
 
 namespace Scipts.UnityAnimation.Component {
@@ -6,6 +9,35 @@ namespace Scipts.UnityAnimation.Component {
 
         public AnimationComponent(Animation animation) {
             this.animation = animation;
+        }
+
+        public void StopIfDontLoop(string name) {
+            AnimationClip clip = animation.GetClip(name);
+            if (clip == null) {
+                return;
+            }
+
+            if (clip.wrapMode != WrapMode.Loop) animation.Stop(name);
+        }
+        
+        public void Play(string name, AnimationPlayMethod method, float crossFade, float speed) {
+            AnimationClip clip = animation.GetClip(name);
+            if (clip == null) {
+                Debug.LogError($"Not found animation {name}");
+                return;
+            }
+
+            if (animation.IsPlaying(AnimationComponent.DEATH)) return;
+
+            animation[name].speed = speed;
+            switch (method) {
+                case AnimationPlayMethod.Play:
+                    animation.Play(name);
+                    break;
+                case AnimationPlayMethod.CrossFade:
+                    animation.CrossFade(name, crossFade);
+                    break;
+            }
         }
 
         public void PlayIdle() {
@@ -36,9 +68,10 @@ namespace Scipts.UnityAnimation.Component {
             animation.Play(name);
         }
 
-        private const string ATTACK = "Attack";
-        private const string RUN = "Move1";
-        private const string IDLE = "Idle";
-        private const string DASH = "Dash";
+        public const string ATTACK = "Attack";
+        public const string RUN = "Move1";
+        public const string IDLE = "Idle";
+        public const string DASH = "Dash";
+        public const string DEATH = "Die";
     }
 }

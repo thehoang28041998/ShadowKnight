@@ -1,5 +1,5 @@
 using Leopotam.EcsLite;
-using Scipts.EntityComponentSystem.Model;
+using Scipts.EntityComponentSystem;
 using Scipts.Movement.Component;
 using Scipts.UserInput.Component;
 using Scipts.UserInput.Model;
