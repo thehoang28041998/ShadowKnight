@@ -8,6 +8,7 @@ using Scipts.Skills.Core.Model;
 using Scipts.Skills.Model;
 using Scipts.UnityAnimation.Component;
 using Scipts.UnityAnimation.Model;
+using UnityEngine;
 
 namespace Scipts.Skills.Combat.Model {
     public partial class DefaultSkill : BaseSkill {
@@ -29,6 +30,7 @@ namespace Scipts.Skills.Combat.Model {
         }
 
         public override void OnFinish() {
+            Debug.Log($"{dependencies.skillConfig.name} is finish");
         }
 
         public override void Destroy() {

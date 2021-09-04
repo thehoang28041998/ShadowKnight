@@ -7,6 +7,8 @@ using Scipts.Skills.Core.Event.Info;
 using Scipts.Skills.Core.Event.Logic;
 using Scipts.Skills.Core.Event.Trigger;
 using Scipts.Skills.Model;
+using UnityEngine;
+using EventType = Scipts.Skills.Core.Event.Info.EventType;
 
 namespace Scipts.Skills.Core.Model {
     public abstract class BaseSkill {
@@ -31,6 +33,8 @@ namespace Scipts.Skills.Core.Model {
             if (pendingEventFrameByPhase.Count > 0) {
                 pendingEventFrames.AddRange(pendingEventFrameByPhase.Dequeue());
             }
+            
+            Debug.Log("oncast " + skillId);
 
             TriggerEventFrame();
         }

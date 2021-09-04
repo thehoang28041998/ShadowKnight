@@ -1,9 +1,12 @@
 using System;
 using Leopotam.EcsLite;
+using Scipts.EntityComponentSystem;
 using Scipts.FiniteStateMachine.Component;
 using Scipts.FiniteStateMachine.Model;
 using Scipts.Movement.Component;
 using Scipts.Movement.Request;
+using Scipts.Skills.Component;
+using Scipts.Skills.Model;
 using Scipts.UnityAnimation.Component;
 
 namespace Scipts.FiniteStateMachine.Job {
@@ -17,9 +20,9 @@ namespace Scipts.FiniteStateMachine.Job {
         private EcsPool<RunStateComponent> pool3;
         private EcsPool<DashStateComponent> pool4;
         private EcsPool<AttackStateComponent> pool5;
-        
+
         public void Init(EcsSystems systems) {
-            EcsWorld world = systems.GetWorld ();
+            EcsWorld world = systems.GetWorld();
             filter = world.Filter<StateMachineComponent>().Inc<IdleStateComponent>().Inc<RunStateComponent>()
                           .Inc<DashStateComponent>().Inc<AttackStateComponent>().Inc<AnimationComponent>()
                           .Inc<VelocityComponent>().Inc<RequestComponent>().End();
@@ -86,7 +89,7 @@ namespace Scipts.FiniteStateMachine.Job {
         private void ChangeWithBackup(ref StateMachineComponent component, StateName name,
                                       int entity) {
             if (component.current == name) return;
-            
+
             // todo: exit current state
             Exit(component.current, entity);
 
@@ -123,9 +126,11 @@ namespace Scipts.FiniteStateMachine.Job {
                 case StateName.IDLE:
                     ref var idle = ref pool2.Get(entity);
                     idle.isRunning = true;
-                    idle.elapsed = 0.0f; 
+                    idle.elapsed = 0.0f;
                     // todo: for test :- play animation
                 {
+                    SkillId skillId = new SkillId(2, SkillCategory.Run, 1);
+                    EntityManager.Instance.GetComponent<SkillComponent>(entity).CastSkill(skillId);
                     pool_0.Get(entity).PlayIdle();
                 }
                     break;
@@ -157,6 +162,7 @@ namespace Scipts.FiniteStateMachine.Job {
                     else {
                         attack.combo = 1;
                     }
+
                     // todo: for test :- play animation
                 {
                     pool_0.Get(entity).PlayAttack(attack.combo, AttackStateComponent.SCALE);
@@ -168,7 +174,7 @@ namespace Scipts.FiniteStateMachine.Job {
                     break;
             }
         }
-        
+
         private float GetAttackDuration(int idx) {
             switch (idx) {
                 case 1: return 0.43f;

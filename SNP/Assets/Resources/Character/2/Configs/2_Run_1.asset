@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 2_Run_1
   m_EditorClassIdentifier: 
   skillClassName: DefaultSkill
-  totalFrame: 1
-  channelingFrame: 1
+  totalFrame: 35
+  channelingFrame: 30
   animationSpeed: 1
   animationName: 
   extras: []

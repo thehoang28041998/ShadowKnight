@@ -33,9 +33,6 @@ namespace Scipts.Skills.Component {
 
                 tmpThis.promiseInit.Resolve();
                 
-                // todo: for test
-                tmpThis.Generation(skillIds[0]);
-                //
             }).Catch(tmpThis.promiseInit.Reject);
         }
 
@@ -55,8 +52,6 @@ namespace Scipts.Skills.Component {
                 }
             }
 
-            baseSkill.OnCast(skillId);
-            Debug.Log($"{baseSkill.GetType()}, {baseSkill.skillId}");
             return baseSkill;
         }
 

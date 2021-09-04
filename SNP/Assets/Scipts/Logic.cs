@@ -13,6 +13,7 @@ using Scipts.FiniteStateMachine.Model;
 using Scipts.Movement.Component;
 using Scipts.Movement.Job;
 using Scipts.Skills.Component;
+using Scipts.Skills.Job;
 using Scipts.Skills.Model;
 using Scipts.UnityAnimation.Component;
 using Scipts.UserInput.Component;
@@ -35,6 +36,9 @@ namespace Scipts {
             // skillFrameConfig
             // todo: using object (class) for config because it has address
             // todo: load config then push data to struct (save data in cache)
+            
+            // readme: 
+            // job sử dụng cho các sub-class: vì nó sẽ xử lý mà không ảnh hưởng tới luồng chính: giảm tải cho luồng chính
         }
 
         private void Start() {
@@ -42,23 +46,33 @@ namespace Scipts {
             manager = new EntityManager(world);
 
             systems = new EcsSystems(world);
-            systems.Add(new StateMachineSystem())
-                   .Add(new IdleStateJobSystem())
-                   .Add(new RunStateJobSystem())
-                   .Add(new DashStateJobSystem())
-                   .Add(new AttackStateJobSystem())
-                   //
-                   .Add(new RequestSystem())
-                   .Add(new RunJobSystem())
-                   .Add(new DashJobSystem())
-                   //
-                   .Add(new TranslateSystem()) // translate with velocity component
+            systems
+                    // todo: system- update        
+                    // ai behaviour
+                    // state machine
+                    .Add(new StateMachineSystem())
+                    .Add(new IdleStateJobSystem())
+                    .Add(new RunStateJobSystem())
+                    .Add(new DashStateJobSystem())
+                    .Add(new AttackStateJobSystem())
+                    // skill - update
+                    .Add(new SkillUpdateSystem())
+                    // movement
+                    .Add(new RequestSystem())
+                    .Add(new RunJobSystem())
+                    .Add(new DashJobSystem())
+                    //
+                    .Add(new TranslateSystem()) // translate with velocity component
+                    // projectile
 #if UNITY_EDITOR
-                   .Add(new EcsWorldDebugSystem())
+                    .Add(new EcsWorldDebugSystem())
 #endif
-                   .Add(new CleanupSystem())
-                   .Init();
-           
+                    // todo: system- late update
+                    // skill - late update
+                    .Add(new SkillLateUpdateSystem())
+                    .Add(new CleanupSystem())
+                    .Init();
+
             int entity = InitEntity();
             FinishInit(entity);
         }
@@ -103,7 +117,8 @@ namespace Scipts {
                 new SkillId(2, SkillCategory.Run, 1)
             };
             manager.AddComponent<SkillFactoryComponent>(entity) = new SkillFactoryComponent(entity, 2, skillIds);
-
+            manager.AddComponent<SkillComponent>(entity) = new SkillComponent(entity);
+            
             // todo: add finite state machine component - state component
             // state component
             manager.AddComponent<IdleStateComponent>(entity).isRunning = true;
