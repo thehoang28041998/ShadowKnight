@@ -58,8 +58,8 @@ namespace Scipts {
                     .Add(new SkillUpdateSystem())
                     // movement
                     .Add(new RequestSystem())
-                    .Add(new RunJobSystem())
-                    .Add(new DashJobSystem())
+                    .Add(new RunSystem())
+                    .Add(new DashSystem())
                     //
                     .Add(new TranslateSystem()) // translate with velocity component
                     // projectile

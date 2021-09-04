@@ -5,19 +5,19 @@ using UnityEngine;
 
 namespace Scipts.Movement.Component {
     public struct RunComponent : IComponent{
-        public readonly Vector3 direction;
-        
-        /// <summary>
-        /// only use for job
-        /// </summary>
-        public bool finish;
-        
-        [SerializeField] private bool abort;
+        private Vector3 direction;
+        private bool finish;
+        private bool abort;
 
         public RunComponent(Vector3 direction) {
             this.finish = false;
             this.abort = false;
             this.direction = direction;
+        }
+
+        public Vector3 GetDirection(float delta) {
+            this.finish = true;
+            return delta * 7.5f * direction;
         }
 
         public bool IsFinish {
