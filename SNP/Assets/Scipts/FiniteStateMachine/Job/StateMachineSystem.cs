@@ -4,13 +4,11 @@ using Scipts.EntityComponentSystem;
 using Scipts.FiniteStateMachine.Component;
 using Scipts.FiniteStateMachine.Model;
 using Scipts.Movement.Component;
-using Scipts.Movement.Request;
-using Scipts.Skills.Component;
-using Scipts.Skills.Model;
 using Scipts.UnityAnimation.Component;
 
 namespace Scipts.FiniteStateMachine.Job {
     public class StateMachineSystem : IEcsInitSystem, IEcsRunSystem {
+        private EntityManager entityManager;
         private EcsFilter filter;
         private EcsPool<AnimationComponent> pool_0;
         private EcsPool<VelocityComponent> pool_1;
@@ -22,6 +20,7 @@ namespace Scipts.FiniteStateMachine.Job {
         private EcsPool<AttackStateComponent> pool5;
 
         public void Init(EcsSystems systems) {
+            this.entityManager = systems.GetShared<EntityManager>();
             EcsWorld world = systems.GetWorld();
             filter = world.Filter<StateMachineComponent>().Inc<IdleStateComponent>().Inc<RunStateComponent>()
                           .Inc<DashStateComponent>().Inc<AttackStateComponent>().Inc<AnimationComponent>()
@@ -103,20 +102,16 @@ namespace Scipts.FiniteStateMachine.Job {
         private void Exit(StateName current, int entity) {
             switch (current) {
                 case StateName.IDLE:
-                    ref var idle = ref pool2.Get(entity);
-                    idle.isRunning = false;
+                    pool2.Get(entity).Exit();
                     break;
                 case StateName.RUN:
-                    ref var run = ref pool3.Get(entity);
-                    run.isRunning = false;
+                    pool3.Get(entity).Exit();
                     break;
                 case StateName.DASH:
-                    ref var dash = ref pool4.Get(entity);
-                    dash.isRunning = false;
+                    pool4.Get(entity).Exit();
                     break;
                 case StateName.ATTACK:
-                    ref var attack = ref pool5.Get(entity);
-                    attack.isRunning = false;
+                    pool5.Get(entity).Exit();
                     break;
             }
         }
@@ -124,65 +119,19 @@ namespace Scipts.FiniteStateMachine.Job {
         private void Enter(StateName current, StateName previous, bool isContinue, int entity) {
             switch (current) {
                 case StateName.IDLE:
-                    ref var idle = ref pool2.Get(entity);
-                    idle.isRunning = true;
-                    idle.elapsed = 0.0f;
-                    // todo: for test :- play animation
-                {
-                    SkillId skillId = new SkillId(2, SkillCategory.Run, 1);
-                    EntityManager.Instance.GetComponent<SkillComponent>(entity).CastSkill(skillId);
-                    pool_0.Get(entity).PlayIdle();
-                }
+                    pool2.Get(entity).Enter(entity, previous, isContinue);
                     break;
                 case StateName.RUN:
-                    ref var run = ref pool3.Get(entity);
-                    run.isRunning = true;
-                    run.elaped = 0.0f;
+                    pool3.Get(entity).Enter(entity, previous, isContinue);
                     // todo: for test :- play animation
-                {
-                    pool_0.Get(entity).PlayRun();
-                }
                     break;
                 case StateName.DASH:
-                    ref var dash = ref pool4.Get(entity);
-                    // todo: for test :- add request in here
-                {
-                    var velocity = pool_1.Get(entity).saveVelocity;
-                    pool_2.Get(entity).AddRequest(new DashRequest(10, 0.3f, velocity.normalized));
-                    pool_0.Get(entity).PlayDash();
-                }
-                    dash.isRunning = true;
+                    pool4.Get(entity).Enter(entity, previous, isContinue);
                     break;
                 case StateName.ATTACK:
-                    ref var attack = ref pool5.Get(entity);
-                    if (previous == StateName.ATTACK) {
-                        attack.combo++;
-                        if (attack.combo > AttackStateComponent.MAX_COMBO) attack.combo = 1;
-                    }
-                    else {
-                        attack.combo = 1;
-                    }
-
-                    // todo: for test :- play animation
-                {
-                    pool_0.Get(entity).PlayAttack(attack.combo, AttackStateComponent.SCALE);
-                }
-                    attack.duration = GetAttackDuration(attack.combo) / AttackStateComponent.SCALE;
-                    attack.elapsed = 0.0f;
-                    attack.saveInputAttack = false;
-                    attack.isRunning = true;
+                    pool5.Get(entity).Enter(entity, previous, isContinue);
                     break;
             }
-        }
-
-        private float GetAttackDuration(int idx) {
-            switch (idx) {
-                case 1: return 0.43f;
-                case 2: return 0.4f;
-                case 3: return 0.66f;
-            }
-
-            return 0.0f;
         }
     }
 }
