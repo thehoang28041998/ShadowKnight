@@ -1,6 +1,4 @@
-using System;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Threads.Unity;
 using Scipts.Helper;
 using Scipts.Movement.Component;
 
