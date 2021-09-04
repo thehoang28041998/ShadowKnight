@@ -44,17 +44,16 @@ namespace Scipts {
         private void Start() {
             EcsWorld world = new EcsWorld();
             manager = new EntityManager(world);
-
             systems = new EcsSystems(world);
             systems
                     // todo: system- update        
                     // ai behaviour
                     // state machine
                     .Add(new StateMachineSystem())
-                    .Add(new IdleStateJobSystem())
-                    .Add(new RunStateJobSystem())
-                    .Add(new DashStateJobSystem())
-                    .Add(new AttackStateJobSystem())
+                    .Add(new IdleStateSystem())
+                    .Add(new RunStateSystem())
+                    .Add(new DashStateSystem())
+                    .Add(new AttackStateSystem())
                     // skill - update
                     .Add(new SkillUpdateSystem())
                     // movement
@@ -87,7 +86,6 @@ namespace Scipts {
                 }
             }
 
-            Debug.Log(promises.Count);
             Promise.All(promises)
                    .Then(delegate {
                        userInputLogic = new UserInputLogic(manager, entity);
@@ -121,10 +119,10 @@ namespace Scipts {
             
             // todo: add finite state machine component - state component
             // state component
-            manager.AddComponent<IdleStateComponent>(entity).isRunning = true;
-            manager.AddComponent<RunStateComponent>(entity);
-            manager.AddComponent<DashStateComponent>(entity);
-            manager.AddComponent<AttackStateComponent>(entity).combo = 1;
+            manager.AddComponent<IdleStateComponent>(entity) = new IdleStateComponent(manager);
+            manager.AddComponent<RunStateComponent>(entity) = new RunStateComponent(manager);
+            manager.AddComponent<DashStateComponent>(entity) = new DashStateComponent(manager);
+            manager.AddComponent<AttackStateComponent>(entity) = new AttackStateComponent(manager);
 
             // state machine component
             manager.AddComponent<StateMachineComponent>(entity) = new StateMachineComponent(
