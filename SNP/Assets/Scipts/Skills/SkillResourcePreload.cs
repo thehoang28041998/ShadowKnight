@@ -22,7 +22,8 @@ namespace Scipts.Skills {
                                     var enumerator = configs.ToArray();
                                     for (int i = 0; i < enumerator.Length; i++) {
                                         enumerator[i].Deserialization();
-                                        list.Add(new System.Tuple<SkillId, SkillConfig>(skillIds[i], enumerator[i]));
+                                        var newEnumerator = enumerator[i].Clone();
+                                        list.Add(new System.Tuple<SkillId, SkillConfig>(skillIds[i], newEnumerator));
                                     }
 
                                     skillIdsAndSkillFrameConfigs = list.ToArray();

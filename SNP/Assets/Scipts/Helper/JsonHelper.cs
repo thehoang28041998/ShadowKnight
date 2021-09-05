@@ -18,7 +18,7 @@ namespace Scipts.Helper {
 
         public T Deserialization<T>(string json) {
             return JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings {
-                TypeNameHandling = TypeNameHandling.Auto
+                TypeNameHandling = TypeNameHandling.Auto,  
             });
         }
 

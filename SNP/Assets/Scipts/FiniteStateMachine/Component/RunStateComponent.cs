@@ -3,6 +3,8 @@ using Scipts.EntityComponentSystem;
 using Scipts.FiniteStateMachine.Model;
 using Scipts.Movement.Component;
 using Scipts.Movement.Request;
+using Scipts.Skills.Component;
+using Scipts.Skills.Model;
 using Scipts.UnityAnimation.Component;
 using Scipts.UserInput.Component;
 using UnityEngine;
@@ -26,7 +28,10 @@ namespace Scipts.FiniteStateMachine.Component {
         public void Enter(int entity, StateName previous, bool isContinue) {
             this.isRunning = true;
             this.elapsed = 0.0f;
-            this.entityManager.GetComponent<AnimationComponent>(entity).PlayRun();
+
+            var newSkill = new SkillId(2, SkillCategory.Run, 1);
+            var skill = entityManager.GetComponent<SkillComponent>(entity);
+            skill.CastSkill(newSkill);
         }
         
         public void Run(ref StateMachineComponent stateMachine, int entity, float delta) {

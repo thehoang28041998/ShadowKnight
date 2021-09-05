@@ -51,7 +51,7 @@ namespace Scipts.Skills.Combat.Model {
         }
 
         protected override IEventLogic GenerationEventLogic(BaseEvent be) {
-            return EventFactory.GenerationEventLogic(this, be);
+            return EventFactory.GenerationEventLogic(manager, this, be);
         }
         
         private void PlayAnimationConfig() {

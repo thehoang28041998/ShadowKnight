@@ -40,8 +40,8 @@ namespace Scipts.Skills.Component {
             if (!cacheDict.ContainsKey(skillId.ToString())) {
                 throw new NotFoundException(typeof(SkillConfig), "with category " + skillId);
             }
-            
-            SkillConfig config = cacheDict[skillId.ToString()].Clone();
+
+            SkillConfig config = cacheDict[skillId.ToString()];
             BaseSkill baseSkill = GetSkill(new DefaultSkill.Dependencies(config, entity));
 
             for (int i = 0; i < config.eventCollection.Count; i++) {

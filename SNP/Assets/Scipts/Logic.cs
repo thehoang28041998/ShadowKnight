@@ -36,9 +36,6 @@ namespace Scipts {
             // skillFrameConfig
             // todo: using object (class) for config because it has address
             // todo: load config then push data to struct (save data in cache)
-            
-            // readme: 
-            // job sử dụng cho các sub-class: vì nó sẽ xử lý mà không ảnh hưởng tới luồng chính: giảm tải cho luồng chính
         }
 
         private void Start() {

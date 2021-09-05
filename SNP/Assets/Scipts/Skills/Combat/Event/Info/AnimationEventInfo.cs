@@ -7,10 +7,10 @@ using EventType = Scipts.Skills.Core.Event.Info.EventType;
 namespace Scipts.Skills.Combat.Event.Info {
     [Serializable]
     public class AnimationEventInfo : BaseEventInfo {
-        public string animationName { get; private set; }
-        public float animationSpeed { get; private set; } = 1.0f;
-        public float crossFade { get; private set; }
-        public AnimationPlayMethod method { get; private set; }
+        public string animationName;
+        public float animationSpeed = 1.0f;
+        public float crossFade;
+        public AnimationPlayMethod method;
 
 
         public AnimationEventInfo() : base(EventType.PlayAnimation) {

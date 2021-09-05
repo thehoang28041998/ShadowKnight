@@ -16,7 +16,7 @@ MonoBehaviour:
   totalFrame: 35
   channelingFrame: 30
   animationSpeed: 1
-  animationName: 
+  animationName: Move1
   extras: []
   events:
   - '['

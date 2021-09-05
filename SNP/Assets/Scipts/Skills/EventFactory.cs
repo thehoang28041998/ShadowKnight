@@ -1,5 +1,7 @@
+using Scipts.EntityComponentSystem;
 using Scipts.Exception;
 using Scipts.Skills.Combat.Event.Info;
+using Scipts.Skills.Combat.Event.Logic;
 using Scipts.Skills.Combat.Model;
 using Scipts.Skills.Core.Event;
 using Scipts.Skills.Core.Event.Info;
@@ -25,20 +27,21 @@ namespace Scipts.Skills {
                     throw new NotFoundException(typeof(BaseEventInfo), eventType.ToString());
             }
         }
-        
-        public static IEventLogic GenerationEventLogic(DefaultSkill parentSkill, BaseEvent @event) {
+
+        public static IEventLogic GenerationEventLogic(EntityManager manager, DefaultSkill parentSkill,
+                                                       BaseEvent @event) {
             EventType eventType = @event.eventInfo.EventType;
             switch (eventType) {
-                /*case EventType.PlayAnimation:
-                    return new AnimationEventLogic(parentSkill, @event);
-                case EventType.Dash:
-                    return new DashEventLogic(parentSkill.UniqueEntity, parentSkill, @event);
-                case EventType.ModifierToTarget:
-                    return new ModifierToTargetEventLogic(parentSkill.UniqueEntity, parentSkill, @event);
-                case EventType.Vfx:
-                    return new VfxEventLogic(parentSkill, @event);
-                case EventType.Jump:
-                    return new JumpEventLogic(parentSkill.UniqueEntity, parentSkill, @event);*/
+                case EventType.PlayAnimation:
+                    return new AnimationEventLogic(manager, parentSkill, @event);
+                /*case EventType.Dash:
+                   return new DashEventLogic(parentSkill.UniqueEntity, parentSkill, @event);
+               case EventType.ModifierToTarget:
+                   return new ModifierToTargetEventLogic(parentSkill.UniqueEntity, parentSkill, @event);
+               case EventType.Vfx:
+                   return new VfxEventLogic(parentSkill, @event);
+               case EventType.Jump:
+                   return new JumpEventLogic(parentSkill.UniqueEntity, parentSkill, @event);*/
                 default:
                     throw new NotFoundException(typeof(IEventLogic), eventType.ToString());
             }
