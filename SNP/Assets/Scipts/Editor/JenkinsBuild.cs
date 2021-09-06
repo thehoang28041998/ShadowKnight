@@ -16,24 +16,13 @@ public class JenkinsBuild {
     // ------------------------------------------------------------------------
     // called from Jenkins
     // ------------------------------------------------------------------------
-    public static void BuildMacOS()
+    /*public static void BuildMacOS()
     {
         var args = FindArgs();
  
         string fullPathAndName = args.targetDir + args.appName + ".app";
         BuildProject(EnabledScenes, fullPathAndName, BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX, BuildOptions.None);
-    }
- 
-    // ------------------------------------------------------------------------
-    // called from Jenkins
-    // ------------------------------------------------------------------------
-    public static void BuildWindows64()
-    {
-        var args = FindArgs();
- 
-        string fullPathAndName = args.targetDir + args.appName;
-        BuildProject(EnabledScenes, fullPathAndName, BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64, BuildOptions.None);
-    }
+    }*/
  
     // ------------------------------------------------------------------------
     // called from Jenkins
@@ -42,57 +31,42 @@ public class JenkinsBuild {
     {
         var args = FindArgs();
  
-        string fullPathAndName = args.targetDir + args.appName + ".apk";
+        string fullPathAndName = args.path + ".apk";
+        Debug.Log(fullPathAndName);
         BuildProject(EnabledScenes, fullPathAndName, BuildTargetGroup.Android, BuildTarget.Android, BuildOptions.None);
-    }
- 
-    // ------------------------------------------------------------------------
-    // called from Jenkins
-    // ------------------------------------------------------------------------
-    public static void BuildLinux()
-    {
-        var args = FindArgs();
- 
-        string fullPathAndName = args.targetDir + args.appName;
-        BuildProject(EnabledScenes, fullPathAndName, BuildTargetGroup.Standalone, BuildTarget.StandaloneLinux64, BuildOptions.None);
     }
  
     private static Args FindArgs()
     {
         var returnValue = new Args();
- 
-        // find: -executeMethod
-        //   +1: JenkinsBuild.BuildMacOS
-        //   +2: FindTheGnome
-        //   +3: D:\Jenkins\Builds\Find the Gnome\47\output
+        
         string[] args = System.Environment.GetCommandLineArgs();
-        var execMethodArgPos = -1;
-        bool allArgsFound = false;
-        for (int i = 0; i < args.Length; i++)
-        {
-            if (args[i] == "-executeMethod")
-            {
-                execMethodArgPos = i;
-            }
-            var realPos = execMethodArgPos == -1 ? -1 : i - execMethodArgPos - 2;
-            if (realPos < 0)
-                continue;
- 
-            if (realPos == 0)
-                returnValue.appName = args[i];
-            if (realPos == 1)
-            {
-                returnValue.targetDir = args[i];
-                if (!returnValue.targetDir.EndsWith(System.IO.Path.DirectorySeparatorChar + ""))
-                    returnValue.targetDir += System.IO.Path.DirectorySeparatorChar;
- 
-                allArgsFound = true;
-            }
+/*string[] args = new[] {
+        "branch:origin/buildRemote/android",
+        "localPath:C:/Users/84342/Documents/Drive/Build/ShadowKnight",
+        "name:ShadowKnight_1"
+};*/
+        string localPath = string.Empty;
+        string name = string.Empty;
+        string branch = string.Empty;
+        
+        foreach (var a in args) {
+            if (a.Contains("localPath")) localPath = a.Replace("localPath:", "");
+            if (a.Contains("name")) name = a.Replace("name:", "");
+            if (a.Contains("branch")) branch = a.Replace("branch:", "");
         }
- 
-        if (!allArgsFound)
-            System.Console.WriteLine("[JenkinsBuild] Incorrect Parameters for -executeMethod Format: -executeMethod JenkinsBuild.BuildWindows64 <app name> <output dir>");
- 
+
+        if (string.IsNullOrEmpty(localPath)) {
+            if (!localPath.EndsWith(System.IO.Path.DirectorySeparatorChar + ""))
+                localPath += System.IO.Path.DirectorySeparatorChar;
+        }
+
+        branch = branch.Replace("origin/", "");
+        branch = branch.Replace("/", "_");
+
+        string fullPath = localPath + "/" + branch + "/" + branch + "_" + name;
+        returnValue.path = fullPath;
+        
         return returnValue;
     }
  
@@ -141,9 +115,7 @@ public class JenkinsBuild {
         }
     }
  
-    private class Args
-    {
-        public string appName = "AppName";
-        public string targetDir = "~/Desktop";
+    private class Args {
+        public string path;
     }
 }
