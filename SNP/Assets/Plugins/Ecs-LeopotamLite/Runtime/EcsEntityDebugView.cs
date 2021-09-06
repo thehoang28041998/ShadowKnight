@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 // ----------------------------------------------------------------------------
 // The MIT License
 // UnityEditor integration https://github.com/Leopotam/ecslite-unityeditor
@@ -126,3 +127,4 @@ namespace Leopotam.EcsLite.UnityEditor {
         void OnGUI (string label, object value, EcsWorld world, int entityId);
     }
 }
+#endif
