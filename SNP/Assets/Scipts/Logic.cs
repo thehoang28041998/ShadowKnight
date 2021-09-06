@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.UnityEditor;
 using RSG;
 using Scipts.EntityComponentSystem;
 using Scipts.EntityComponentSystem.Component;
@@ -61,7 +60,7 @@ namespace Scipts {
                     .Add(new TranslateSystem()) // translate with velocity component
                     // projectile
 #if UNITY_EDITOR
-                    .Add(new EcsWorldDebugSystem())
+                    .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
 #endif
                     // todo: system- late update
                     // skill - late update
