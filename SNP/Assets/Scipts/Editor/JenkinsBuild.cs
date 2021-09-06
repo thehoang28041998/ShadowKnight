@@ -38,6 +38,17 @@ public class JenkinsBuild {
     // ------------------------------------------------------------------------
     // called from Jenkins
     // ------------------------------------------------------------------------
+    public static void BuildAndroid()
+    {
+        var args = FindArgs();
+ 
+        string fullPathAndName = args.targetDir + args.appName + ".apk";
+        BuildProject(EnabledScenes, fullPathAndName, BuildTargetGroup.Android, BuildTarget.Android, BuildOptions.None);
+    }
+ 
+    // ------------------------------------------------------------------------
+    // called from Jenkins
+    // ------------------------------------------------------------------------
     public static void BuildLinux()
     {
         var args = FindArgs();
