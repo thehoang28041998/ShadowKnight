@@ -36,7 +36,7 @@ public class JenkinsBuild {
     {
         var args = FindArgs();
 
-        if (string.IsNullOrEmpty(args.ndk))
+        if (!string.IsNullOrEmpty(args.ndk))
         {
             AndroidNdkRoot = args.ndk;
         }
