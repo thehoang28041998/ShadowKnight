@@ -48,49 +48,17 @@ public static class Buildscript
 		EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
 		string context = "";
 		
-		/*PlayerSettings.Android.keystoreName = Path.Combine(GetProjectRootPath(), "user.keystore");
-        PlayerSettings.Android.keystorePass = "******";
-        PlayerSettings.Android.keyaliasName = "******";
-        PlayerSettings.Android.keyaliasPass = "******";*/
+		BuildPlayerOptions options = new BuildPlayerOptions();
+		options.scenes = FindEnabledEditorScenes();
+		options.target = BuildTarget.Android;
+		options.targetGroup = BuildTargetGroup.Android;
+		options.locationPathName = GetArg("-outputPath");
 
-		var sdk = GetArg("-androidSdkPath");
-		if (!string.IsNullOrEmpty(sdk))
-			EditorSetup.AndroidSdkRoot = sdk;
-		context += "\n" + EditorSetup.AndroidSdkRoot;
-		
-		var ndk = GetArg("-androidNdkPath");
-		if (!string.IsNullOrEmpty(ndk))
-			EditorSetup.AndroidNdkRoot = ndk;
+		context += EditorSetup.AndroidSdkRoot;
 		context += "\n" + EditorSetup.AndroidNdkRoot;
-
-		var jdk = GetArg("-androidJdkPath");
-		if (!string.IsNullOrEmpty(jdk))
-			EditorSetup.JdkRoot = jdk;
 		context += "\n" + EditorSetup.JdkRoot;
 
-		var commit = GetArg("-commit");
-		var oldVersion = PlayerSettings.bundleVersion;
-		if(!String.IsNullOrEmpty(commit))
-		{
-			commit = commit.Substring(0, 5);
-			PlayerSettings.bundleVersion = PlayerSettings.bundleVersion + "-" + commit;
-		}
-		
-		var outputPath = GetArg("-outputPath");
-		if(String.IsNullOrEmpty(outputPath))
-			outputPath = Path.Combine(Path.Combine(GetProjectRootPath(), "Builds/"), string.Format("{0}-{1}.apk", PlayerSettings.productName, PlayerSettings.bundleVersion));
-
-        PlayerSettings.bundleVersion = oldVersion;
-		var buildReport = BuildPipeline.BuildPlayer(FindEnabledEditorScenes(), outputPath, BuildTarget.Android, BuildOptions.None);
-		if (buildReport.summary.result == BuildResult.Succeeded)
-		{
-			Debug.Log(buildReport.summary.outputPath);	
-		}
-		else
-		{
-			Debug.Log(buildReport.summary.totalErrors);
-		}
-		
+		BuildPipeline.BuildPlayer(options);
 		WriteFile(context);
     }
 
