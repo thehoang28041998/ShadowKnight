@@ -53,14 +53,20 @@ public static class Buildscript
         PlayerSettings.Android.keyaliasName = "******";
         PlayerSettings.Android.keyaliasPass = "******";*/
 
-		context += EditorSetup.AndroidNdkRoot;
+		var sdk = GetArg("-androidSdkPath");
+		if (!string.IsNullOrEmpty(sdk))
+			EditorSetup.AndroidSdkRoot = sdk;
+		context += "\n" + EditorSetup.AndroidSdkRoot;
 		
 		var ndk = GetArg("-androidNdkPath");
-		context += "\n" + ndk;
-		
 		if (!string.IsNullOrEmpty(ndk))
 			EditorSetup.AndroidNdkRoot = ndk;
 		context += "\n" + EditorSetup.AndroidNdkRoot;
+
+		var jdk = GetArg("-androidJdkPath");
+		if (!string.IsNullOrEmpty(jdk))
+			EditorSetup.JdkRoot = jdk;
+		context += "\n" + EditorSetup.JdkRoot;
 
 		var commit = GetArg("-commit");
 		var oldVersion = PlayerSettings.bundleVersion;
