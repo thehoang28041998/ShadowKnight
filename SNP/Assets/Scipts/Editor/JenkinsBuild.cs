@@ -10,7 +10,11 @@ using UnityEditor.Build.Reporting;
 // https://docs.unity3d.com/Manual/CommandLineArguments.html
 // ------------------------------------------------------------------------
 public class JenkinsBuild {
-  
+    public static string AndroidNdkRoot {
+        get { return EditorPrefs.GetString("AndroidNdkRoot"); }
+        set { EditorPrefs.SetString("AndroidNdkRoot", value); }
+    }
+    
     static string[] EnabledScenes = FindEnabledEditorScenes();
   
     // ------------------------------------------------------------------------
@@ -27,12 +31,17 @@ public class JenkinsBuild {
     // ------------------------------------------------------------------------
     // called from Jenkins
     // ------------------------------------------------------------------------
+    [MenuItem("Tools/BuildAndroid")]
     public static void BuildAndroid()
     {
         var args = FindArgs();
- 
+
+        if (string.IsNullOrEmpty(args.ndk))
+        {
+            AndroidNdkRoot = args.ndk;
+        }
+
         string fullPathAndName = args.path + ".apk";
-        Debug.Log(fullPathAndName);
         BuildProject(EnabledScenes, fullPathAndName, BuildTargetGroup.Android, BuildTarget.Android, BuildOptions.None);
     }
  
@@ -44,7 +53,8 @@ public class JenkinsBuild {
 /*string[] args = new[] {
         "branch:origin/buildRemote/android",
         "localPath:C:/Users/84342/Documents/Drive/Build/ShadowKnight",
-        "name:ShadowKnight_1"
+        "name:ShadowKnight_1",
+        "ndk:D:/Setup/android-ndk-r19"
 };*/
         string localPath = string.Empty;
         string name = string.Empty;
@@ -54,6 +64,7 @@ public class JenkinsBuild {
             if (a.Contains("localPath")) localPath = a.Replace("localPath:", "");
             if (a.Contains("name")) name = a.Replace("name:", "");
             if (a.Contains("branch")) branch = a.Replace("branch:", "");
+            if (a.Contains("ndk")) returnValue.ndk = a.Replace("ndk:", "");
         }
 
         if (string.IsNullOrEmpty(localPath)) {
@@ -88,34 +99,36 @@ public class JenkinsBuild {
     // ------------------------------------------------------------------------
     private static void BuildProject(string[] scenes, string targetDir, BuildTargetGroup buildTargetGroup, BuildTarget buildTarget, BuildOptions buildOptions)
     {
-        System.Console.WriteLine("[JenkinsBuild] Building:" + targetDir + " buildTargetGroup:" + buildTargetGroup.ToString() + " buildTarget:" + buildTarget.ToString());
+        Debug.Log("[JenkinsBuild] Building:" + targetDir + " buildTargetGroup:" + buildTargetGroup.ToString() + " buildTarget:" + buildTarget.ToString());
   
         // https://docs.unity3d.com/ScriptReference/EditorUserBuildSettings.SwitchActiveBuildTarget.html
         bool switchResult = EditorUserBuildSettings.SwitchActiveBuildTarget(buildTargetGroup, buildTarget);
         if (switchResult)
         {
-            System.Console.WriteLine("[JenkinsBuild] Successfully changed Build Target to: " + buildTarget.ToString());
+            Debug.Log("[JenkinsBuild] Successfully changed Build Target to: " + buildTarget.ToString());
         }
         else
         {
-            System.Console.WriteLine("[JenkinsBuild] Unable to change Build Target to: " + buildTarget.ToString() + " Exiting...");
+            Debug.Log("[JenkinsBuild] Unable to change Build Target to: " + buildTarget.ToString() + " Exiting...");
             return;
         }
   
         // https://docs.unity3d.com/ScriptReference/BuildPipeline.BuildPlayer.html
         BuildReport buildReport = BuildPipeline.BuildPlayer(scenes, targetDir, buildTarget, buildOptions);
         BuildSummary buildSummary = buildReport.summary;
+        Debug.Log(buildSummary.outputPath);
         if (buildSummary.result == BuildResult.Succeeded)
         {
-            System.Console.WriteLine("[JenkinsBuild] Build Success: Time:" + buildSummary.totalTime + " Size:" + buildSummary.totalSize + " bytes");
+            Debug.Log("[JenkinsBuild] Build Success: Time:" + buildSummary.totalTime + " Size:" + buildSummary.totalSize + " bytes");
         }
         else
         {
-            System.Console.WriteLine("[JenkinsBuild] Build Failed: Time:" + buildSummary.totalTime + " Total Errors:" + buildSummary.totalErrors);
+            Debug.Log("[JenkinsBuild] Build Failed: Time:" + buildSummary.totalTime + " Total Errors:" + buildSummary.totalErrors);
         }
     }
  
     private class Args {
         public string path;
+        public string ndk;
     }
 }
