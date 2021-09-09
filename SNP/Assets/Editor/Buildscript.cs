@@ -36,6 +36,20 @@ public static class Buildscript
 		"C:/Users/Admin/Documents/Jenkins/.jenkins/workspace/game.apk"
 	};
 
+	private static string UnityEditorFolder
+	{
+		get
+		{
+			string applicationPath = EditorApplication.applicationPath;
+			return applicationPath.Replace("Unity.exe", "");
+		}
+	}
+
+	private static string UnityEditorAndroidPlayer
+	{
+		get => "Data/PlaybackEngines/AndroidPlayer/";
+	}
+
 	private static void WriteFile(string context)
 	{
 		string path = "D:/context.txt";
@@ -46,7 +60,6 @@ public static class Buildscript
     private static void BuildAndroid()
     {
 		EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
-		string context = "";
 		
 		BuildPlayerOptions options = new BuildPlayerOptions();
 		options.scenes = FindEnabledEditorScenes();
@@ -54,10 +67,16 @@ public static class Buildscript
 		options.targetGroup = BuildTargetGroup.Android;
 		options.locationPathName = GetArg("-outputPath");
 
-		context += EditorSetup.AndroidSdkRoot;
+		string AndroidPlayer = UnityEditorFolder + UnityEditorAndroidPlayer;
+		EditorSetup.JdkRoot = AndroidPlayer + "OpenJDK";
+		EditorSetup.AndroidSdkRoot = AndroidPlayer + "SDK";
+		EditorSetup.AndroidNdkRoot = AndroidPlayer + "NDK";
+
+		string context = EditorSetup.AndroidSdkRoot;
 		context += "\n" + EditorSetup.AndroidNdkRoot;
 		context += "\n" + EditorSetup.JdkRoot;
-
+		
+//		Debug.Log(context);
 		BuildPipeline.BuildPlayer(options);
 		WriteFile(context);
     }
