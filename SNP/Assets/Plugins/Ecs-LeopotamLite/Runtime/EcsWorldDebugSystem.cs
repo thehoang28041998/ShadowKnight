@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 // ----------------------------------------------------------------------------
 // The MIT License
 // UnityEditor integration https://github.com/Leopotam/ecslite-unityeditor
@@ -96,3 +97,4 @@ namespace Leopotam.EcsLite.UnityEditor {
         }
     }
 }
+#endif

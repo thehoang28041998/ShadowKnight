@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Leopotam.EcsLite;
+#if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
+#endif
 using RSG;
 using Scipts.EntityComponentSystem;
 using Scipts.EntityComponentSystem.Component;
