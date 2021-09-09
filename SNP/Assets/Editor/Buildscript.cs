@@ -35,21 +35,33 @@ public static class Buildscript
 		"-outputPath",
 		"C:/Users/Admin/Documents/Jenkins/.jenkins/workspace/game.apk"
 	};
+
+	private static void WriteFile(string context)
+	{
+		string path = "D:/context.txt";
+		System.IO.File.WriteAllText(path, context);
+	}
 	
 	[MenuItem("Tools/Build/Android")]
     private static void BuildAndroid()
     {
 		EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
+		string context = "";
 		
 		/*PlayerSettings.Android.keystoreName = Path.Combine(GetProjectRootPath(), "user.keystore");
         PlayerSettings.Android.keystorePass = "******";
         PlayerSettings.Android.keyaliasName = "******";
         PlayerSettings.Android.keyaliasPass = "******";*/
 
+		context += EditorSetup.AndroidNdkRoot;
+		
 		var ndk = GetArg("-androidNdkPath");
+		context += "\n" + ndk;
+		
 		if (!string.IsNullOrEmpty(ndk))
 			EditorSetup.AndroidNdkRoot = ndk;
-		
+		context += "\n" + EditorSetup.AndroidNdkRoot;
+
 		var commit = GetArg("-commit");
 		var oldVersion = PlayerSettings.bundleVersion;
 		if(!String.IsNullOrEmpty(commit))
@@ -72,6 +84,8 @@ public static class Buildscript
 		{
 			Debug.Log(buildReport.summary.totalErrors);
 		}
+		
+		WriteFile(context);
     }
 
     private static string[] FindEnabledEditorScenes()
